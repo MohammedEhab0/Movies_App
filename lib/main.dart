@@ -1,0 +1,56 @@
+import 'package:copy_movie/UI/auth/login/Login.dart';
+import 'package:copy_movie/UI/homescreen/home_screen.dart';
+import 'package:copy_movie/utils/my_BlocObserver.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'Providers/SettingProvider.dart';
+import 'UI/Di/di.dart';
+import 'UI/auth/register/Register.dart';
+import 'utils/app_theme.dart';
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+  configureDependencies();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('en'),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => SettingProviders()),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var settingProviders = Provider.of<SettingProviders>(context);
+    return MaterialApp(
+ 
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: AppTheme.lightTheme,
+        debugShowCheckedModeBanner: false,
+        title: 'Movies',
+      initialRoute: Register.routeName,
+      routes: {
+        Login.routeName: (context) => const Login(),
+        Register.routeName: (context) => const Register(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+      },
+       );
+  }
+}
