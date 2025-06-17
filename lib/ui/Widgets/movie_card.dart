@@ -4,7 +4,6 @@ import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
-
 class MovieCard extends StatelessWidget {
   final Movies movie;
   final double? width, height;
@@ -20,11 +19,14 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safeWidth = width ?? 198;
+    final safeHeight = height ?? 279;
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: width ?? 198,
-        height: height ?? 279,
+        width: safeWidth,
+        height: safeHeight,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -33,8 +35,8 @@ class MovieCard extends StatelessWidget {
           children: [
             MoviePoster(
               movie.mediumCoverImage ?? '',
-              width: width ?? 198,
-              height: height ?? 279,
+              width: safeWidth,
+              height: safeHeight,
               isNetwork: true,
               fit: BoxFit.cover,
               radius: 12,
@@ -60,10 +62,9 @@ class MovieCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: width! *.1),
+                    SizedBox(width: safeWidth * 0.1),
                     Image.asset(
                       AppAssets.starIcon,
-                      // color: AppColors.yellowColor,
                       width: 15,
                       height: 15,
                     ),
