@@ -6,15 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'Providers/SettingProvider.dart';
+import 'Providers/UserProvider.dart';
 import 'UI/Di/di.dart';
 import 'UI/auth/register/Register.dart';
 import 'utils/app_theme.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   configureDependencies();
+
+  final userProvider = UserProvider();
+  await userProvider.loadUserFromPrefs(); // load token here ✅
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
@@ -23,7 +27,8 @@ void main() async {
       startLocale: const Locale('en'),
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => SettingProviders()),
+          ChangeNotifierProvider(create: (_) => SettingProviders()),
+          ChangeNotifierProvider<UserProvider>.value(value: userProvider), // ✅
         ],
         child: const MyApp(),
       ),
@@ -31,26 +36,28 @@ void main() async {
   );
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     var settingProviders = Provider.of<SettingProviders>(context);
+    final isLoggedIn = Provider.of<UserProvider>(context).isLoggedIn;
+
     return MaterialApp(
- 
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: AppTheme.lightTheme,
-        debugShowCheckedModeBanner: false,
-        title: 'Movies',
-      initialRoute: Register.routeName,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
+      title: 'Movies',
+      initialRoute: isLoggedIn ? HomeScreen.routeName : Register.routeName,
       routes: {
         Login.routeName: (context) => const Login(),
         Register.routeName: (context) => const Register(),
         HomeScreen.routeName: (context) => const HomeScreen(),
       },
-       );
+    );
   }
 }

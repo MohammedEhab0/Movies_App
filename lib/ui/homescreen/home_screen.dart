@@ -19,10 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 
   List<Widget> tabsList = [
-    const HomeTab(),
+    HomeTab(),
     ExploreTab(),
-    const SearchTab(),
-    const ProfileTab(),
+     SearchTab(),
+     ProfileTab(),
   ];
 
   @override
