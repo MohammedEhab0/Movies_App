@@ -1,5 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:copy_movie/Data/data_sources/remote/Impl/auth_remote_daraSource_impl.dart';
+import 'package:copy_movie/Data/data_sources/remote/auth_remote_data_source.dart';
+import 'package:copy_movie/Data/repositories/auth/auth_repository.dart';
+import 'package:copy_movie/Data/repositories/auth/auth_repository_impl.dart';
 import 'package:copy_movie/UI/Di/di.dart';
+import 'package:copy_movie/api/apiManger.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:copy_movie/utils/app_styles.dart';
@@ -26,7 +31,8 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
+  // 1. Declare viewModel as a late class member
+  late SignUpViewModel viewModel;
 
   List<String> avatarList = [
     AppAssets.character1,
@@ -40,15 +46,25 @@ class _RegisterState extends State<Register> {
     AppAssets.character9,
   ];
 
+  @override
+  void initState() {
+    // 2. Initialize the class member viewModel
+    ApiManger apiManger = ApiManger();
+    AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSourceImpl(apiManger: apiManger);
+    AuthRepository authRepository = AuthRepositoryImpl(authRemoteDataSource: authRemoteDataSource);
+    viewModel = SignUpViewModel(authRepository: authRepository); // Assign to the class member
+    super.initState();
+  }
+
   int avatarId = 0;
-  SignUpViewModel viewModel = getIt<SignUpViewModel>();
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return BlocListener<SignUpViewModel, RegisterStates>(
-      bloc: viewModel,
+      bloc: viewModel, // Now 'viewModel' is correctly defined in this scope
       listener: (context, state) {
         if (state is RegisterLoadingStates) {
           DialogUtils.showLoading(context: context, message: "Loading ...");

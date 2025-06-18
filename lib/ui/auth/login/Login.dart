@@ -5,6 +5,13 @@ import 'package:copy_movie/ui/auth/login/Cubit/loginStates.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import '../../../Data/data_sources/remote/Impl/auth_remote_daraSource_impl.dart';
+import '../../../Data/data_sources/remote/auth_remote_data_source.dart';
+import '../../../Data/repositories/auth/auth_repository.dart';
+import '../../../Data/repositories/auth/auth_repository_impl.dart';
+import '../../../Providers/UserProvider.dart';
+import '../../../api/apiManger.dart';
 import '../../../utils/app_assets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_styles.dart';
@@ -24,14 +31,36 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  LoginViewModel viewModel = getIt<LoginViewModel>();
+  late LoginViewModel viewModel;
+  // A flag to ensure viewModel is initialized only once in didChangeDependencies
+  bool _isViewModelInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Do not access Provider.of(context) here
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize viewModel here, or only if not already initialized
+    if (!_isViewModelInitialized) {
+      var userProvider = Provider.of<UserProvider>(context, listen: false); // listen: false if you only need it for initialization
+      ApiManger apiManger = ApiManger(); // Consider using your DI setup here if available
+      AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSourceImpl(apiManger: apiManger);
+      AuthRepository authRepository = AuthRepositoryImpl(authRemoteDataSource: authRemoteDataSource);
+      viewModel = LoginViewModel(authRepository: authRepository, userProvider: userProvider);
+      _isViewModelInitialized = true; // Set flag to true after initialization
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return BlocListener<LoginViewModel, LoginStates>(
-      bloc: viewModel,
+      bloc: viewModel, // Now 'viewModel' is guaranteed to be initialized
       listener: (context, state) {
         if (state is LoginLoadingStates) {
           DialogUtils.showLoading(context: context, message: "Loading ...");
@@ -45,25 +74,17 @@ class _LoginState extends State<Login> {
           );
           print(state.error.errorMessage);
         } else if (state is LoginSuccessStates) {
-          DialogUtils.hideLoading(context); // Dismiss the loading dialog first.
+          DialogUtils.hideLoading(context);
 
-          // IMPORTANT: Perform navigation immediately after dismissing loading.
-          // This ensures the current 'context' is still valid for navigation.
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
 
-          // Now, show a success message *after* navigation has been initiated.
-          // This dialog will appear on top of the HomeScreen.
-          // We can remove the posAction here as navigation already occurred.
           DialogUtils.showMessage(
-            context: context, // This 'context' is still valid as it's from the listener
+            context: context,
             message: "Login Successfully",
             title: 'Success',
             posActionName: "ok",
-            // No posAction needed here as navigation has already happened.
-            // The dialog will just dismiss itself on "ok".
             posAction: () {
-              // Optionally, if you wanted to do something else after dialog close,
-              // but for navigation, it's already done.
+              // This can be left empty or removed if no action is needed after navigation
             },
           );
         }
