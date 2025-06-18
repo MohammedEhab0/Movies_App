@@ -1,3 +1,7 @@
+
+
+import 'package:copy_movie/ui/homescreen/onboarding/onboarding.dart';
+
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +14,14 @@ import 'utils/app_theme.dart';
 import 'Providers/SettingProvider.dart';
 import 'Providers/UserProvider.dart';
 
+
+import 'UI/Di/di.dart';
 import 'UI/auth/login/Login.dart';
 import 'UI/auth/register/Register.dart';
 import 'UI/homescreen/home_screen.dart';
+import 'utils/app_theme.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,16 +59,22 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Movies',
+
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
-      initialRoute: isLoggedIn ? HomeScreen.routeName : Register.routeName,
-      routes: {
-        Login.routeName: (_) => const Login(),
-        Register.routeName: (_) => const Register(),
-        HomeScreen.routeName: (_) => const HomeScreen(),
+
+      initialRoute: isLoggedIn ? HomeScreen.routeName : OnBoarding.routeName,
+        
+    routes: {
+        OnBoarding.routeName:(context)=>OnBoarding(),
+        Login.routeName: (context) => const Login(),
+        Register.routeName: (context) => const Register(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+
+
       },
     );
   }

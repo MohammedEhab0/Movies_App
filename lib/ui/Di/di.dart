@@ -7,4 +7,6 @@ final getIt = GetIt.instance;
 @injectableInit
 Future<void> configureDependencies() async {
   await getIt.init(); // do NOT return this directly without await
+
 }
+

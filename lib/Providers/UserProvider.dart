@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Data/models/MyUser.dart';
-
+@injectable
 class UserProvider extends ChangeNotifier {
   MyUser? _currentUser;
   static const _tokenKey = 'user_token';
