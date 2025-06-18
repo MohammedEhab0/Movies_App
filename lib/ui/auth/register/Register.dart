@@ -7,7 +7,8 @@ import 'package:copy_movie/utils/app_styles.dart';
 import 'package:copy_movie/utils/dialog_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; // ✅ Correct
+
 import '../../../utils/validators.dart';
 import '../../Widgets/CustomElevatedButton.dart';
 import '../../Widgets/CustomTextField.dart';
@@ -15,7 +16,6 @@ import '../../Widgets/ToggleLanguage.dart';
 import '../../homescreen/home_screen.dart';
 import '../login/Login.dart';
 import 'Cubit/registerStates.dart';
-
 
 class Register extends StatefulWidget {
   static const routeName = 'Register';
@@ -26,8 +26,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  RegisterViewModel viewModel = getIt<RegisterViewModel>();
-  List<String> avatarList =[AppAssets.character1,
+
+
+  List<String> avatarList = [
+    AppAssets.character1,
     AppAssets.character2,
     AppAssets.character3,
     AppAssets.character4,
@@ -38,9 +40,8 @@ class _RegisterState extends State<Register> {
     AppAssets.character9,
   ];
 
-  // Initialize avatarId with a default value (e.g., 0 for the first avatar)
   int avatarId = 0;
-
+  RegisterViewModel viewModel = getIt<RegisterViewModel>();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -59,23 +60,14 @@ class _RegisterState extends State<Register> {
             title: "Error",
             posActionName: "ok",
           );
-          print(state.error.errorMessage);
         } else if (state is RegisterSuccessStates) {
-          DialogUtils.hideLoading(context); // Dismiss loading dialog.
-
-          // IMPORTANT: Perform navigation immediately.
+          DialogUtils.hideLoading(context);
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-
-          // Now, show a success message on the new screen.
           DialogUtils.showMessage(
-            context: context, // Context from the listener
+            context: context,
             message: "Register Successfully",
             title: 'Success',
             posActionName: "ok",
-            // No posAction for navigation here.
-            posAction: () {
-              // Dialog will just dismiss itself.
-            },
           );
         }
       },
@@ -100,28 +92,27 @@ class _RegisterState extends State<Register> {
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
-                        onPageChanged: (index, reason) {
-                          // Update avatarId when the page changes
-                          setState(() {
-                            avatarId = index;
-                          });
-                        },
-                        enlargeFactor: .5,
-                        viewportFraction: .381,
-                        enlargeCenterPage: true,
-                        height: height * .21),
-                    items: List.generate(avatarList.length, (index) => index ).map((i) {
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          avatarId = index;
+                        });
+                      },
+                      enlargeFactor: .5,
+                      viewportFraction: .381,
+                      enlargeCenterPage: true,
+                      height: height * .21,
+                    ),
+                    items: avatarList.map((avatar) {
                       return Builder(
-                        builder: (BuildContext context) {
+                        builder: (context) {
                           return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: .5),
-                              decoration: const BoxDecoration(),
-                              child:Image.asset(avatarList[i],fit:BoxFit.fitWidth));
+                            margin: const EdgeInsets.symmetric(horizontal: .5),
+                            child: Image.asset(avatar, fit: BoxFit.fitWidth),
+                          );
                         },
                       );
                     }).toList(),
                   ),
-
                   CustomTextField(
                     controller: viewModel.nameController,
                     prefixIcon: Image.asset(AppAssets.nameIcon),
@@ -170,7 +161,7 @@ class _RegisterState extends State<Register> {
                   ),
                   SizedBox(height: height * .02),
                   CustomElevatedButton(
-                    onPressed: () => viewModel.register(avaterId: avatarId), // Pass the updated avatarId
+                    onPressed: () => viewModel.register(avaterId: avatarId),
                     textButton: "create account".tr(),
                     bgColor: AppColors.yellowColor,
                   ),
@@ -184,7 +175,6 @@ class _RegisterState extends State<Register> {
                       ),
                       TextButton(
                         onPressed: () {
-                          // Push to Login, allowing back navigation to Register
                           Navigator.of(context).pushNamed(Login.routeName);
                         },
                         child: Text(
@@ -197,10 +187,9 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: height * .01),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ToggleLanguage(),
-                    ],
-                  ),SizedBox(height: height * .02),
+                    children: [ToggleLanguage()],
+                  ),
+                  SizedBox(height: height * .02),
                 ],
               ),
             ),

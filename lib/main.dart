@@ -15,11 +15,11 @@ import 'Providers/SettingProvider.dart';
 import 'Providers/UserProvider.dart';
 
 
-import 'UI/Di/di.dart';
+
 import 'UI/auth/login/Login.dart';
 import 'UI/auth/register/Register.dart';
 import 'UI/homescreen/home_screen.dart';
-import 'utils/app_theme.dart';
+
 
 
 
