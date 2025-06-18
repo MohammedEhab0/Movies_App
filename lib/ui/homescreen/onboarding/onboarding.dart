@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../../../utils/app_assets.dart';
 import '../../../utils/app_colors.dart';
@@ -14,7 +13,7 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingSimpleState extends State<OnBoarding> {
-   PageController controller = PageController();
+  PageController controller = PageController();
   int currentPage = 0;
 
   final List<Map<String, String>> pages = [
@@ -51,13 +50,14 @@ class _OnBoardingSimpleState extends State<OnBoarding> {
     {
       'image': AppAssets.onboarding6,
       'title': 'Start Watching Now',
+      // 'subtitle': 'No subtitle for this page, or add one if needed'
     },
   ];
 
   void nextPage() {
     if (currentPage < pages.length - 1) {
       controller.nextPage(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300), // Added const
           curve: Curves.easeInOut);
     } else {
       Navigator.pushReplacementNamed(context, Register.routeName);
@@ -67,7 +67,7 @@ class _OnBoardingSimpleState extends State<OnBoarding> {
   void previousPage() {
     if (currentPage > 0) {
       controller.previousPage(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300), // Added const
           curve: Curves.easeInOut);
     }
   }
@@ -94,22 +94,40 @@ class _OnBoardingSimpleState extends State<OnBoarding> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(page['image'] ?? '', fit: BoxFit.cover),
-              Container(color: AppColors.blackColor),
+              // Your Image.asset should be here, occupying the full space
+              Image.asset(
+                page['image'] ?? '',
+                fit: BoxFit.cover,
+                // Add a colorFilter to make the image darker if needed,
+                // or just rely on the semi-transparent container below.
+                // colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.darken),
+              ),
+
+              // This Container needs to be semi-transparent or serve a different purpose.
+              // If AppColors.blackColor is Colors.black (opaque), it will cover the image.
+              // Change it to use an opacity value:
+              Container(
+                // Option 1: Use Colors.black with opacity
+                color: Colors.black.withOpacity(0.6), // Adjust opacity as desired (e.g., 0.5 for 50% opacity)
+                // Option 2: Ensure AppColors.blackColor itself has an alpha value in its definition
+                // color: AppColors.blackColor.withOpacity(0.6), // if AppColors.blackColor is already Color(0xFF000000)
+              ),
+
+              // The rest of your UI elements will be on top of the image and the overlay
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Column(
                   children: [
                     SizedBox(height: height * 0.05),
-                    Spacer(flex: 3),
+                    const Spacer(flex: 3), // Added const
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(
                         horizontal: width * 0.06,
                         vertical: height * 0.035,
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.blackColor,
+                      decoration: const BoxDecoration( // Added const for BoxDecoration
+                        color: AppColors.blackColor, // This bottom container is opaque black
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
                           topRight: Radius.circular(30),
