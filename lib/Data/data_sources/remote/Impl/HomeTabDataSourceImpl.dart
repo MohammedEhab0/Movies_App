@@ -11,10 +11,14 @@ class HomeTabDataSourceImpl implements HomeTabDataSource{
   ApiManger apiManger  ;
   HomeTabDataSourceImpl({required this.apiManger});
   @override
-  Future<MoviesResponse?> fetchMovies() async{
-    // TODO: implement fetchMovies
-    var response = await apiManger.getData(
-        baseUrl: ApiConstants.moviesBaseUrl, endPoint: EndPoints.listMovies);
-      return MoviesResponse.fromJson(response);
+  @override
+  Future<MoviesResponse?> fetchMovies() async {
+    final response = await apiManger.getData(
+      baseUrl: ApiConstants.moviesBaseUrl,
+      endPoint: EndPoints.listMovies,
+    );
+
+    return MoviesResponse.fromJson(response.data); // ✅ CORRECTED
   }
+
 }
