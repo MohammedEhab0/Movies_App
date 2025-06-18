@@ -10,7 +10,16 @@ class ApiManger {
     required String endPoint,
     Map<String, dynamic>? queryParameters,
   }) {
-    return dio.get(baseUrl + endPoint, queryParameters: queryParameters);
+    return dio.get(
+      baseUrl + endPoint,
+      queryParameters: queryParameters,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+    );
   }
 
   Future<Response> postData({
@@ -31,5 +40,4 @@ class ApiManger {
       ),
     );
   }
-
 }

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomeTab> {
                       SizedBox(height: height * 0.02),
                       Row(
                         children: [
-                          Text(
+                          Text(overflow: TextOverflow.ellipsis,
                             '${movies[newIndex].genres ?? ''}',
                             style: AppStyles.regular20White,
                           ),
