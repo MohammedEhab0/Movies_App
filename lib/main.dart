@@ -53,9 +53,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       title: 'Movies',
-     // initialRoute: isLoggedIn ? HomeScreen.routeName : Register.routeName,
-        initialRoute:OnBoarding.routeName,
-
+      initialRoute: isLoggedIn ? HomeScreen.routeName : OnBoarding.routeName,
+        
     routes: {
         OnBoarding.routeName:(context)=>OnBoarding(),
         Login.routeName: (context) => const Login(),
