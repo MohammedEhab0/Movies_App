@@ -9,6 +9,8 @@ import 'package:copy_movie/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Di/di.dart';
+
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
@@ -17,7 +19,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeTab> {
-  final MoviesCubit viewModel = MoviesCubit();
+  MoviesCubit  viewModel = getIt<MoviesCubit>();
   int newIndex = 0;
 
   @override

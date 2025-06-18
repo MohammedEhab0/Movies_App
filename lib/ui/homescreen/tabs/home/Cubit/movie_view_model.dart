@@ -1,34 +1,38 @@
 import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/api/EndPoints.dart';
-import 'package:copy_movie/api/apiConstants.dart';
-import 'package:copy_movie/api/apiManger.dart';
+import 'package:copy_movie/Data/repositories/HomeRepository.dart';
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class MoviesCubit extends Cubit<MoviesState> {
-  MoviesCubit() : super(MoviesLoading());
-  final apiManger = ApiManger();
+  final HomeRepository homeRepository;
+
+  MoviesCubit({required this.homeRepository}) : super(MoviesLoading());
 
   Future<void> fetchMovies() async {
-    emit(MoviesLoading());
+    emit(MoviesLoading()); // emit loading state
 
     try {
-      emit(MoviesLoading());
-      var response = await apiManger.getData(
-          baseUrl: ApiConstants.moviesBaseUrl, endPoint: EndPoints.listMovies);
+      final response = await homeRepository.fetchMovies();
 
-      if (response.statusCode! < 200 || response.statusCode! >= 300) {
-        emit(MoviesError(response.statusMessage!));
+      if (response == null) {
+        emit(MoviesError("Null response from server"));
+        print("Null response from server");
         return;
       }
 
-      if (response.statusCode! >= 200 && response.statusCode! < 300) {
-        final moviesResponse = MoviesResponse.fromJson(response.data);
-
-        emit(MoviesSucess(moviesResponse.data!.movies ?? []));
-        return;
+      if (response.status == 'error') {
+        emit(MoviesError(response.statusMessage ?? "Unknown error occurred"));
+        print(response.statusMessage ?? "Unknown error occurred");
+      } else if (response.status == 'ok' && response.data?.movies != null) {
+        emit(MoviesSucess(response.data!.movies!));
+      } else {
+        emit(MoviesError("No movies found or invalid data"));
       }
-    } catch (e) {
+    } catch (e, stack) {
+      print("MoviesCubit error: $e");
+      print(stack);
       emit(MoviesError('Connection error: ${e.toString()}'));
     }
   }
