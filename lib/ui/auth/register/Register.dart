@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:copy_movie/UI/Di/di.dart';
-import 'package:copy_movie/UI/auth/register/Cubit/register_view_model.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:copy_movie/utils/app_styles.dart';
@@ -16,6 +15,7 @@ import '../../Widgets/ToggleLanguage.dart';
 import '../../homescreen/home_screen.dart';
 import '../login/Login.dart';
 import 'Cubit/registerStates.dart';
+import 'Cubit/register_view_model.dart';
 
 class Register extends StatefulWidget {
   static const routeName = 'Register';
@@ -41,13 +41,13 @@ class _RegisterState extends State<Register> {
   ];
 
   int avatarId = 0;
-  RegisterViewModel viewModel = getIt<RegisterViewModel>();
+  SignUpViewModel viewModel = getIt<SignUpViewModel>();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return BlocListener<RegisterViewModel, RegisterStates>(
+    return BlocListener<SignUpViewModel, RegisterStates>(
       bloc: viewModel,
       listener: (context, state) {
         if (state is RegisterLoadingStates) {

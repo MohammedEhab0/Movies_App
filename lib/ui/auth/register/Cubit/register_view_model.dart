@@ -5,10 +5,10 @@ import '../../../../Data/repositories/auth/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 @injectable
-class RegisterViewModel extends Cubit<RegisterStates> {
+class SignUpViewModel extends Cubit<RegisterStates> {
   final AuthRepository authRepository;
 
-  RegisterViewModel({required this.authRepository}) : super(RegisterInitialStates());
+  SignUpViewModel({required this.authRepository}) : super(RegisterInitialStates());
 
   var nameController = TextEditingController(text: 'moooooo');
   var emailController = TextEditingController(text: 'mo11@mo.com');

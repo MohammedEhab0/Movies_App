@@ -84,8 +84,8 @@ extension GetItInjectableX on _i174.GetIt {
         homeTabDataSource: gh<_i436.HomeTabDataSource>(),
       ),
     );
-    gh.factory<_i892.RegisterViewModel>(
-      () => _i892.RegisterViewModel(authRepository: gh<_i252.AuthRepository>()),
+    gh.factory<_i892.SignUpViewModel>(
+      () => _i892.SignUpViewModel(authRepository: gh<_i252.AuthRepository>()),
     );
     gh.factory<_i498.MoviesCubit>(
       () => _i498.MoviesCubit(homeRepository: gh<_i829.HomeRepository>()),
