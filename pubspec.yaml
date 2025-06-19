@@ -38,7 +38,6 @@ dependencies:
   flutter_svg: any
   google_fonts: ^6.2.1
   carousel_slider: ^5.1.1
-  fluttertoast: ^8.2.12
   easy_localization: ^3.0.7+1
   shared_preferences: ^2.5.3
   provider: ^6.1.5
@@ -52,6 +51,7 @@ dependencies:
   get_it: ^8.0.3
   cached_network_image: ^3.4.1
   flutter_native_splash: ^2.4.6
+  fluttertoast: ^8.2.12
 
 
 dev_dependencies:
