@@ -3,6 +3,7 @@ import 'package:copy_movie/ui/Widgets/movie_poster.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MovieCard extends StatelessWidget {
   final Movies movie;
@@ -19,24 +20,19 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final safeWidth = width ?? 198;
-    final safeHeight = height ?? 279;
-
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: safeWidth,
-        height: safeHeight,
+        width: width ?? 198,
+        height: height ?? 279,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
-            MoviePoster(
+            CustomImage(
               movie.mediumCoverImage ?? '',
-              width: safeWidth,
-              height: safeHeight,
+              width: width ?? 198,
+              height: height ?? 279,
               isNetwork: true,
               fit: BoxFit.cover,
               radius: 12,
@@ -46,9 +42,9 @@ class MovieCard extends StatelessWidget {
               top: 8,
               left: 8,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.lightBlack.withAlpha(181),
+                  color: AppColors.whiteBgColor.withAlpha(181),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -56,15 +52,16 @@ class MovieCard extends StatelessWidget {
                   children: [
                     Text(
                       movie.rating?.toString() ?? '',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.yellowColor,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: safeWidth * 0.1),
-                    Image.asset(
+                    SizedBox(width: 4),
+                    SvgPicture.asset(
                       AppAssets.starIcon,
+                      color: AppColors.yellowColor,
                       width: 15,
                       height: 15,
                     ),
