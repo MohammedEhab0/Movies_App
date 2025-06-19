@@ -1,4 +1,4 @@
-import 'package:copy_movie/ui/homescreen/tabs/explore/explore_tab.dart';
+import 'package:copy_movie/ui/homescreen/tabs/explore/browse_tab.dart';
 import 'package:copy_movie/ui/homescreen/tabs/home/home_tab.dart';
 import 'package:copy_movie/ui/homescreen/tabs/profile/profile_tab.dart';
 import 'package:copy_movie/ui/homescreen/tabs/search/search_tab.dart';
