@@ -1,4 +1,3 @@
-import 'package:copy_movie/Data/models/MovieRespone.dart';
 import 'package:copy_movie/Data/repositories/browse%20tab/browse_tab_repository.dart';
 import 'package:copy_movie/ui/homescreen/tabs/explore/Cubit/browse_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
