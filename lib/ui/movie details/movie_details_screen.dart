@@ -10,56 +10,71 @@ class MovieDetailsScreen extends StatelessWidget {
   final List<Movies> similarMovies;
 
   const MovieDetailsScreen({
-    super.key,
+    Key? key,
     required this.movie,
     required this.similarMovies,
-  });
+  }) : super(key: key);
+
+  List<Movies> _getFilteredSimilarMovies() {
+    final mainGenre = movie.genres?.isNotEmpty == true
+        ? movie.genres!.first
+        : null;
+    if (mainGenre == null) return [];
+    return similarMovies
+        .where((m) => m.genres?.contains(mainGenre) == true && m.id != movie.id)
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String? mainGenre = movie.genres?.isNotEmpty == true
-        ? movie.genres!.first
-        : null;
-
-    final List<Movies> filteredSimilarMovies = similarMovies.where((m) {
-      if (mainGenre == null || m.genres == null) return false;
-      return m.genres!.contains(mainGenre) && m.id != movie.id;
-    }).toList();
+    final filteredSimilarMovies = _getFilteredSimilarMovies();
 
     return SafeArea(
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: PlayMovieWidget(movie: movie)),
-            SliverToBoxAdapter(child: WatchBtnAndScreenShots(movie: movie)),
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate((context, index) {
+        body: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            PlayMovieWidget(movie: movie),
+            const SizedBox(height: 16),
+            WatchBtnAndScreenShots(movie: movie),
+            const SizedBox(height: 16),
+            if (filteredSimilarMovies.isNotEmpty) ...[
+              const Text(
+                'Similar Movies',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: filteredSimilarMovies.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.74,
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (context, index) {
+                  final movieItem = filteredSimilarMovies[index];
                   return MovieCard(
-                    movie: filteredSimilarMovies[index],
+                    movie: movieItem,
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => MovieDetailsScreen(
-                            movie: filteredSimilarMovies[index],
+                            movie: movieItem,
                             similarMovies: similarMovies,
                           ),
                         ),
                       );
                     },
                   );
-                }, childCount: filteredSimilarMovies.length),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.74,
-                  crossAxisCount: 2,
-                ),
+                },
               ),
-            ),
-            SliverToBoxAdapter(child: SummaryAndCast(movie: movie)),
+              const SizedBox(height: 16),
+            ],
+            SummaryAndCast(movie: movie),
           ],
         ),
       ),
