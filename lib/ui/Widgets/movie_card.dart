@@ -2,8 +2,7 @@ import 'package:copy_movie/Data/models/MovieRespone.dart';
 import 'package:copy_movie/ui/Widgets/movie_poster.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
   final Movies movie;
@@ -20,19 +19,27 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final cardWidth = width ?? screenWidth * 0.45;
+    final cardHeight = height ?? screenHeight * 0.3;
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: width ?? 198,
-        height: height ?? 279,
+        width: cardWidth,
+        height: cardHeight,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Stack(
           children: [
             CustomImage(
               movie.mediumCoverImage ?? '',
-              width: width ?? 198,
-              height: height ?? 279,
+              width: cardWidth,
+              height: cardHeight,
               isNetwork: true,
               fit: BoxFit.cover,
               radius: 12,
@@ -42,7 +49,7 @@ class MovieCard extends StatelessWidget {
               top: 8,
               left: 8,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.whiteBgColor.withAlpha(181),
                   borderRadius: BorderRadius.circular(12),
@@ -52,19 +59,14 @@ class MovieCard extends StatelessWidget {
                   children: [
                     Text(
                       movie.rating?.toString() ?? '',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.yellowColor,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 4),
-                    SvgPicture.asset(
-                      AppAssets.starIcon,
-                      color: AppColors.yellowColor,
-                      width: 15,
-                      height: 15,
-                    ),
+                    const SizedBox(width: 4),
+                    Image.asset(AppAssets.starIcon,scale: 2,),
                   ],
                 ),
               ),

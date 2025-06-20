@@ -1,3 +1,5 @@
+// File: search_tab.dart
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,32 +11,37 @@ import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:copy_movie/utils/app_styles.dart';
 
-import '../../../Di/di.dart';
 import '../../../Widgets/CustomTextField.dart';
+import '../../../movie details/movie_details_screen.dart';
+import '../home/Cubit/movie_view_model.dart';
 
 class SearchTab extends StatefulWidget {
+  const SearchTab({super.key});
+
   @override
   State<SearchTab> createState() => _SearchTabState();
 }
 
 class _SearchTabState extends State<SearchTab> {
-  late final SearchViewModel viewModel;
+  late SearchViewModel searchViewModel;
+  late MoviesCubit movieViewModel;
 
   @override
-  void initState() {
-    super.initState();
-    viewModel = getIt<SearchViewModel>();
-    viewModel.searchController.addListener(_onSearchChanged);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    searchViewModel = context.read<SearchViewModel>();
+    movieViewModel = context.read<MoviesCubit>();
+    searchViewModel.searchController.addListener(_onSearchChanged);
   }
 
   void _onSearchChanged() {
-    final query = viewModel.searchController.text.trim();
-    viewModel.Search(query);
+    final query = searchViewModel.searchController.text.trim();
+    searchViewModel.Search(query);
   }
 
   @override
   void dispose() {
-    viewModel.close();
+    searchViewModel.searchController.removeListener(_onSearchChanged);
     super.dispose();
   }
 
@@ -52,33 +59,25 @@ class _SearchTabState extends State<SearchTab> {
             children: [
               SizedBox(height: height * 0.02),
               CustomTextField(
-                controller: viewModel.searchController,
+                controller: searchViewModel.searchController,
                 prefixIcon: Image.asset(AppAssets.search),
                 hintText: 'search'.tr(),
               ),
               SizedBox(height: height * 0.02),
               Expanded(
                 child: BlocBuilder<SearchViewModel, SearchState>(
-                  bloc: viewModel,
                   builder: (context, state) {
-                    final isEmptySearch = viewModel.searchController.text.trim().isEmpty;
+                    final isEmptySearch =
+                        searchViewModel.searchController.text.trim().isEmpty;
 
-                    if (isEmptySearch) {
-                      return _buildEmptyState(); // only show image when search bar is empty
-                    }
-
-                    if (state is SearchLoadingState) {
-                      return _buildLoadingIndicator();
-                    } else if (state is SearchErrorState) {
-                      return _buildEmptyState();
-                    } else if (state is SearchSuccessState) {
-                      if (state.movies.isEmpty) {
-                        return _buildEmptyState();
-                      }
+                    if (isEmptySearch) return _buildEmptyState();
+                    if (state is SearchLoadingState) return _buildLoadingIndicator();
+                    if (state is SearchErrorState) return _buildEmptyState();
+                    if (state is SearchSuccessState) {
+                      if (state.movies.isEmpty) return _buildEmptyState();
                       return _buildMovieGrid(state);
-                    } else {
-                      return _buildInitialMessage();
                     }
+                    return _buildInitialMessage();
                   },
                 ),
               ),
@@ -94,7 +93,7 @@ class _SearchTabState extends State<SearchTab> {
   }
 
   Widget _buildLoadingIndicator() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(color: AppColors.yellowColor),
     );
   }
@@ -121,7 +120,24 @@ class _SearchTabState extends State<SearchTab> {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: MovieCard(movie: state.movies[index]),
+          child: MovieCard(
+            movie: state.movies[index],
+            onPressed: () async {
+              final movieDetails = await movieViewModel
+                  .fetchMovieDetails(state.movies[index].id ?? 0);
+              if (movieDetails != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieDetailsScreen(
+                      movie: movieDetails,
+                      similarMovies: state.movies,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
         );
       },
     );

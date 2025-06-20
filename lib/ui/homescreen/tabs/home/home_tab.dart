@@ -111,10 +111,10 @@ class _HomePageState extends State<HomeTab> {
                       SizedBox(height: height * 0.02),
                       Row(
                         children: [
-                          Text(
-                            '${movies[newIndex].genres ?? ''}',
-                            style: AppStyles.regular20White,
-                          ),
+                          // Text(
+                          //   '${movies[newIndex].genres ?? ''}',
+                          //   style: AppStyles.regular20White,
+                          // ),
                           const Spacer(),
                           Text("See more", style: AppStyles.regular16yellow),
                           Icon(

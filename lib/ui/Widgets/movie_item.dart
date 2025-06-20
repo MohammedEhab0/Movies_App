@@ -18,67 +18,79 @@ class ItemBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final imageHeight = screenHeight * 0.45; // Customize as needed
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-      child: Stack(
-        children: [
-          CachedNetworkImage(
-            imageUrl: slider[index].mediumCoverImage ?? '',
-            width: double.infinity,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const Center(
-              child: CircularProgressIndicator(),
+      child: SizedBox(
+        width: screenWidth,
+        height: imageHeight,
+        child: Stack(
+          children: [
+            CachedNetworkImage(
+              imageUrl: slider[index].mediumCoverImage ?? '',
+              width: screenWidth,
+              height: imageHeight,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) {
+                print('Error loading image: $error');
+                return Container(
+                  color: Colors.transparent,
+                  width: screenWidth,
+                  height: imageHeight,
+                  alignment: Alignment.center,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.broken_image,
+                          size: 40, color: AppColors.whiteColor),
+                      SizedBox(height: 8),
+                      Text('Image not available',
+                          style: TextStyle(color: AppColors.whiteColor)),
+                    ],
+                  ),
+                );
+              },
             ),
-            errorWidget: (context, url, error) {
-              print('Error loading image: $error');
-              return Container(
-                color: Colors.black12,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            Positioned(
+              top: 10,
+              left: 10,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.025,
+                  vertical: screenHeight * 0.005,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.blackColor.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
                   children: [
-                    Icon(Icons.broken_image,
-                        size: 40, color: AppColors.whiteColor),
-                    SizedBox(height: 8),
-                    Text('Image not available'),
+                    Text(
+                      '${slider[index].rating ?? ''}',
+                      style: const TextStyle(
+                        color: AppColors.whiteColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Image.asset(
+                      AppAssets.starIcon,
+                      width: 15,
+                      height: 15,
+                    ),
                   ],
                 ),
-              );
-            },
-          ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-              decoration: BoxDecoration(
-                color: AppColors.blackColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    '${slider[index].rating ?? ''}',
-                    style: const TextStyle(
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-              Image.asset(
-                AppAssets.starIcon,
-                // color: AppColors.yellowColor,
-                width: 15,
-                height: 15,
-              ),
-                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

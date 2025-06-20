@@ -5,6 +5,9 @@ import 'package:injectable/injectable.dart';
 import '../../../../../Data/models/MovieRespone.dart';
 
 import '../../../../../Data/repositories/SearchRepository.dart';
+import '../../../../../api/apiConstants.dart';
+import '../../../../../api/apiManger.dart';
+import '../../home/Cubit/movie_states.dart';
 import 'SearchStates.dart';
 
 @injectable
@@ -14,7 +17,7 @@ class SearchViewModel extends Cubit<SearchState>{
   final TextEditingController searchController = TextEditingController();
 
   List<Movies> searchList = [];
-
+  final apimanger = ApiManger();
   Future<void> Search(String searchWord) async {
     emit(SearchLoadingState());
     try {
@@ -30,6 +33,7 @@ class SearchViewModel extends Cubit<SearchState>{
       emit(SearchErrorState(error: e.toString()));
     }
   }
+
 
   // Remember to dispose of the controller if you create it here
   @override

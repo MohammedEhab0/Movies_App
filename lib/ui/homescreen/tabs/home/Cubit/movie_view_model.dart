@@ -4,7 +4,8 @@ import 'package:copy_movie/api/apiConstants.dart';
 import 'package:copy_movie/api/apiManger.dart';
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:injectable/injectable.dart';
+@injectable
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesLoading());
   final apimanger = ApiManger();
