@@ -43,7 +43,7 @@ import 'package:copy_movie/ui/auth/login/Cubit/login_view_model.dart' as _i1061;
 import 'package:copy_movie/ui/auth/register/Cubit/register_view_model.dart'
     as _i892;
 import 'package:copy_movie/ui/homescreen/tabs/explore/Cubit/browse_view_model.dart'
-    as _i496;
+    as _i525;
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_view_model.dart'
     as _i498;
 import 'package:copy_movie/ui/homescreen/tabs/search/Cubit/SearchViewModel.dart'
@@ -59,6 +59,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i427.UserProvider>(() => _i427.UserProvider());
+    gh.factory<_i498.MoviesCubit>(() => _i498.MoviesCubit());
     gh.singleton<_i878.ApiManger>(() => _i878.ApiManger());
     gh.factory<_i351.BrowseTabDataSource>(
       () => _i572.BrowseTabDataSourceImpl(apiManger: gh<_i878.ApiManger>()),
@@ -82,8 +83,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i144.AuthRemoteDataSource>(
       () => _i606.AuthRemoteDataSourceImpl(apiManger: gh<_i878.ApiManger>()),
     );
-    gh.factory<_i496.BrowseViewModel>(
-      () => _i496.BrowseViewModel(repository: gh<_i868.BrowseTabRepository>()),
+    gh.factory<_i525.BrowseViewModel>(
+      () => _i525.BrowseViewModel(repository: gh<_i868.BrowseTabRepository>()),
     );
     gh.factory<_i252.AuthRepository>(
       () => _i398.AuthRepositoryImpl(
@@ -107,9 +108,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i892.SignUpViewModel>(
       () => _i892.SignUpViewModel(authRepository: gh<_i252.AuthRepository>()),
-    );
-    gh.factory<_i498.MoviesCubit>(
-      () => _i498.MoviesCubit(homeRepository: gh<_i829.HomeRepository>()),
     );
     return this;
   }

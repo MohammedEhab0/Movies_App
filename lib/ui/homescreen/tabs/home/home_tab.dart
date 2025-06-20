@@ -1,15 +1,13 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:copy_movie/ui/Widgets/movie_card.dart';
 import 'package:copy_movie/ui/Widgets/movie_slider.dart';
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_states.dart';
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_view_model.dart';
+import 'package:copy_movie/ui/movie%20details/movie_details_screen.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:copy_movie/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../Di/di.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -19,7 +17,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeTab> {
-  MoviesCubit  viewModel = getIt<MoviesCubit>();
+  final MoviesCubit viewModel = MoviesCubit();
   int newIndex = 0;
 
   @override
@@ -41,10 +39,7 @@ class _HomePageState extends State<HomeTab> {
             return const Center(child: CircularProgressIndicator());
           } else if (state is MoviesError) {
             return Center(
-              child: Text(
-                state.message,
-                style: AppStyles.regular15yellow,
-              ),
+              child: Text(state.message, style: AppStyles.regular15yellow),
             );
           } else if (state is MoviesSucess) {
             final movies = state.movies;
@@ -52,24 +47,24 @@ class _HomePageState extends State<HomeTab> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       color: AppColors.blackColor,
                       blurRadius: 8,
-                      offset: Offset(0, 1),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                   image: DecorationImage(
-                    image: NetworkImage(
-                      movies[newIndex].largeCoverImage ?? '',
-                    ),
+                    image: NetworkImage(movies[newIndex].largeCoverImage ?? ''),
                     fit: BoxFit.cover,
                     onError: (error, stackTrace) {},
                   ),
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.04, vertical: height * 0.02),
+                    horizontal: width * 0.04,
+                    vertical: height * 0.02,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -84,7 +79,26 @@ class _HomePageState extends State<HomeTab> {
                       SizedBox(height: height * 0.03),
                       MovieSlider(
                         height: height,
-                        slider: movies, onPageChanged:changeGrenIndex,
+                        slider: movies,
+                        onItemTap: (index) async {
+                          final movie = movies[index];
+                          final movieDetails = await viewModel
+                              .fetchMovieDetails(movie.id ?? 0);
+                          if (movieDetails != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetailsScreen(
+                                  movie: movieDetails,
+                                  similarMovies: movies,
+                                ),
+                              ),
+                            );
+                          }
+                          setState(() {
+                            newIndex = index;
+                          });
+                        },
                       ),
                       SizedBox(height: height * 0.03),
                       Center(
@@ -97,16 +111,13 @@ class _HomePageState extends State<HomeTab> {
                       SizedBox(height: height * 0.02),
                       Row(
                         children: [
-                          Text(overflow: TextOverflow.ellipsis,
-                            '${movies[newIndex].genres ?? ''}',
-                            style: AppStyles.regular20White,
-                          ),
+                          // Text(
+                          //   '${movies[newIndex].genres ?? ''}',
+                          //   style: AppStyles.regular20White,
+                          // ),
                           const Spacer(),
-                          Text(
-                            "See more",
-                            style: AppStyles.regular16yellow,
-                          ),
-                          const Icon(
+                          Text("See more", style: AppStyles.regular16yellow),
+                          Icon(
                             Icons.arrow_forward,
                             size: 20,
                             color: AppColors.yellowColor,
@@ -127,9 +138,23 @@ class _HomePageState extends State<HomeTab> {
                               padding: EdgeInsets.only(right: width * 0.03),
                               child: MovieCard(
                                 width: width * 0.38,
-                                height: height * 0.3,
+                                height: height * 0.33,
                                 movie: movie,
-                                onPressed: () {
+                                onPressed: () async {
+                                  final movieDetails = await viewModel
+                                      .fetchMovieDetails(movie.id ?? 0);
+                                  if (movieDetails != null) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            MovieDetailsScreen(
+                                              movie: movieDetails,
+                                              similarMovies: movies,
+                                            ),
+                                      ),
+                                    );
+                                  }
                                   if (movie.genres != movies[newIndex].genres) {
                                     setState(() {
                                       newIndex = index;
@@ -154,7 +179,7 @@ class _HomePageState extends State<HomeTab> {
     );
   }
 
-  void changeGrenIndex(int index , CarouselPageChangedReason reason) {
+  void changeGrenIndex(int index) {
     setState(() {
       newIndex = index;
     });

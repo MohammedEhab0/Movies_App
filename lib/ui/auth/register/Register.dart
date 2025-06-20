@@ -3,7 +3,6 @@ import 'package:copy_movie/Data/data_sources/remote/Impl/auth_remote_daraSource_
 import 'package:copy_movie/Data/data_sources/remote/auth_remote_data_source.dart';
 import 'package:copy_movie/Data/repositories/auth/auth_repository.dart';
 import 'package:copy_movie/Data/repositories/auth/auth_repository_impl.dart';
-import 'package:copy_movie/UI/Di/di.dart';
 import 'package:copy_movie/api/apiManger.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
@@ -17,7 +16,6 @@ import '../../../utils/validators.dart';
 import '../../Widgets/CustomElevatedButton.dart';
 import '../../Widgets/CustomTextField.dart';
 import '../../Widgets/ToggleLanguage.dart';
-import '../../homescreen/home_screen.dart';
 import '../login/Login.dart';
 import 'Cubit/registerStates.dart';
 import 'Cubit/register_view_model.dart';
@@ -78,7 +76,7 @@ class _RegisterState extends State<Register> {
           );
         } else if (state is RegisterSuccessStates) {
           DialogUtils.hideLoading(context);
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          Navigator.pushReplacementNamed(context, Login.routeName);
           DialogUtils.showMessage(
             context: context,
             message: "Register Successfully",
