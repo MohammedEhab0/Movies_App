@@ -1,10 +1,11 @@
 import 'package:copy_movie/Providers/UserProvider.dart';
-import 'package:flutter/material.dart';
 import 'package:copy_movie/UI/Widgets/CustomElevatedButton.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/app_styles.dart';
 import '../../../Di/di.dart';
 import 'cubit/profile_and_favourite_states.dart';
@@ -32,7 +33,7 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    var userProvider = Provider.of<UserProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return BlocProvider<ProfileViewModel>(
       create: (_) => viewModel,
