@@ -36,14 +36,25 @@ class EditProfileViewModel extends Cubit<UpdateProfileStates> {
   }
 
   /// update user
-  void updateUser({required String token,required Map<String, dynamic> data})async {
+  void updateUser(
+      {required String token, required Map<String, dynamic> data}) async {
     emit(UpdateProfileLoadingState());
+
+    debugPrint('🔼 Sending updateUser payload: $data');
+
     var either = await repository.updateUser(token, data);
     either.fold(
-      (error) => emit(UpdateProfileErrorState(errorMessage: error.errorMessage)),
-      (response) => emit(UpdateProfileUpdateActionState(message: response.message!)),
+          (error) {
+        debugPrint('❌ Update failed: ${error.errorMessage}');
+        emit(UpdateProfileErrorState(errorMessage: error.errorMessage));
+      },
+          (response) {
+        debugPrint('✅ Update successful: ${response.message}');
+        emit(UpdateProfileUpdateActionState(message: response.message!));
+      },
     );
   }
+
 
   /// delete user
   void deleteUser({required String token})async {

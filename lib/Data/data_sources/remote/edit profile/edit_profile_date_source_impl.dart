@@ -39,28 +39,40 @@ class EditProfileDataSourceImpl implements EditProfileDataSource{
 
   /// Update User
   @override
-  Future<Either<Errors, UserResponse>> updateUser(String token, Map<String, dynamic> data)async {
+  Future<Either<Errors, UserResponse>> updateUser(String token,
+      Map<String, dynamic> data) async {
     try {
       List<ConnectivityResult> results = await Connectivity().checkConnectivity();
-      if(results.contains(ConnectivityResult.wifi) || results.contains(ConnectivityResult.mobile)){
+      if (results.contains(ConnectivityResult.wifi) ||
+          results.contains(ConnectivityResult.mobile)) {
         var response = await apiManger.updateUser(
-            baseUrl: ApiConstants.AuthBaseUrl,
-            endPoint: EndPoints.user,
-            token: token,
-            body: data
+          baseUrl: ApiConstants.AuthBaseUrl,
+          endPoint: EndPoints.user,
+          token: token,
+          body: data,
         );
-        if(response.statusCode! >= 200 && response.statusCode! < 300){
+
+        // ✅ Log full response
+        print('UpdateUser response status: ${response.statusCode}');
+        print('UpdateUser response body: ${response.data}');
+
+        if (response.statusCode! >= 200 && response.statusCode! < 300) {
           return Right(UserResponse.fromJson(response.data));
-        }else{
-          return Left(ServerErrors(errorMessage: response.statusMessage!));
+        } else {
+          // Try to extract error message from body
+          final message = response.data['message'] ?? response.statusMessage ??
+              'Update failed';
+          return Left(ServerErrors(errorMessage: message));
         }
-      }else{
+      } else {
         return Left(NetworkErrors(errorMessage: 'No internet connection'));
       }
     } catch (e) {
+      print('Exception during updateUser: $e');
       return Left(Errors(errorMessage: e.toString()));
     }
   }
+
 
   /// Delete User
   @override

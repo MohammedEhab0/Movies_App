@@ -6,6 +6,8 @@ import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../movie details/movie_details_screen.dart';
+import '../home/Cubit/movie_view_model.dart';
 import 'Cubit/browse_view_model.dart';
 
 class ExploreTab extends StatefulWidget {
@@ -16,7 +18,8 @@ class ExploreTab extends StatefulWidget {
 }
 
 class _ExploreTabState extends State<ExploreTab> {
-  BrowseViewModel viewModel = getIt<BrowseViewModel>(); // field injection
+  final BrowseViewModel viewModel = getIt<BrowseViewModel>(); // injected
+  final MoviesCubit movieViewModel = getIt<MoviesCubit>(); // injected
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,6 @@ class _ExploreTabState extends State<ExploreTab> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            spacing: 15,
             children: [
               DefaultTabController(
                 length: viewModel.genres.length,
@@ -35,16 +37,17 @@ class _ExploreTabState extends State<ExploreTab> {
                   isScrollable: true,
                   tabAlignment: TabAlignment.start,
                   padding: EdgeInsets.zero,
-                  labelPadding: EdgeInsets.only(right: 8),
+                  labelPadding: const EdgeInsets.only(right: 8),
                   onTap: (index) {
                     viewModel.selectedIndex = index;
                     setState(() {});
-                    // viewModel.getMovies(genres[index]);
                   },
                   tabs: viewModel.genres.map((genre) {
                     return BrowseTabs(
                       title: genre,
-                      isSelected: viewModel.selectedIndex == viewModel.genres.indexOf(genre),
+                      isSelected:
+                          viewModel.selectedIndex ==
+                          viewModel.genres.indexOf(genre),
                     );
                   }).toList(),
                 ),
@@ -66,6 +69,22 @@ class _ExploreTabState extends State<ExploreTab> {
                         itemBuilder: (context, index) {
                           return MovieBrowseItem(
                             movies: state.movieList![index],
+                            onTap: () async {
+                              final movie = state.movieList![index];
+                              final movieDetails = await movieViewModel
+                                  .fetchMovieDetails(movie.id ?? 0);
+                              if (movieDetails != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MovieDetailsScreen(
+                                      movie: movieDetails,
+                                      similarMovies: state.movieList!,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
                           );
                         },
                       ),
@@ -73,7 +92,7 @@ class _ExploreTabState extends State<ExploreTab> {
                   } else if (state is BrowseErrorState) {
                     return Center(
                       child: Text(
-                        "${state.errorMessage}",
+                        state.errorMessage!,
                         style: const TextStyle(color: AppColors.yellowColor),
                       ),
                     );
