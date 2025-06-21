@@ -1,4 +1,5 @@
 import 'package:copy_movie/Providers/UserProvider.dart';
+import 'package:copy_movie/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:copy_movie/UI/Widgets/CustomElevatedButton.dart';
 import 'package:copy_movie/utils/app_assets.dart';
@@ -80,7 +81,9 @@ class _ProfileTabState extends State<ProfileTab> {
                             flex: 2,
                             child: CustomElevatedButton(
                               bgColor: AppColors.yellowColor,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(AppRoutes.updateProfileRoute);
+                              },
                               textButton: 'Edit profile',
                             ),
                           ),

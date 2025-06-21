@@ -16,6 +16,10 @@ import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data
     as _i351;
 import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data_source_impl.dart'
     as _i572;
+import 'package:copy_movie/Data/data_sources/remote/edit%20profile/edit_profile_date_source.dart'
+    as _i94;
+import 'package:copy_movie/Data/data_sources/remote/edit%20profile/edit_profile_date_source_impl.dart'
+    as _i642;
 import 'package:copy_movie/Data/data_sources/remote/HomeTabDataSource.dart'
     as _i436;
 import 'package:copy_movie/Data/data_sources/remote/Impl/auth_remote_daraSource_impl.dart'
@@ -34,6 +38,10 @@ import 'package:copy_movie/Data/repositories/browse%20tab/browse_tab_repository.
     as _i868;
 import 'package:copy_movie/Data/repositories/browse%20tab/browse_tab_repository_impl.dart'
     as _i885;
+import 'package:copy_movie/Data/repositories/edit%20profile/edit_profile_repository.dart'
+    as _i686;
+import 'package:copy_movie/Data/repositories/edit%20profile/edit_profile_repository_impl.dart'
+    as _i85;
 import 'package:copy_movie/Data/repositories/HomeRepository.dart' as _i829;
 import 'package:copy_movie/Data/repositories/HomeRepositoryImpl.dart' as _i964;
 import 'package:copy_movie/Data/repositories/SearchRepository.dart' as _i390;
@@ -46,6 +54,8 @@ import 'package:copy_movie/ui/homescreen/tabs/explore/Cubit/browse_view_model.da
     as _i525;
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_view_model.dart'
     as _i498;
+import 'package:copy_movie/ui/homescreen/tabs/profile/edit%20profile/cubit/edit_profile_view_model.dart'
+    as _i9;
 import 'package:copy_movie/ui/homescreen/tabs/search/Cubit/SearchViewModel.dart'
     as _i879;
 import 'package:get_it/get_it.dart' as _i174;
@@ -80,6 +90,9 @@ extension GetItInjectableX on _i174.GetIt {
         searchRemoteDataSource: gh<_i781.SearchRemoteDataSource>(),
       ),
     );
+    gh.factory<_i94.EditProfileDataSource>(
+      () => _i642.EditProfileDataSourceImpl(apiManger: gh<_i878.ApiManger>()),
+    );
     gh.factory<_i144.AuthRemoteDataSource>(
       () => _i606.AuthRemoteDataSourceImpl(apiManger: gh<_i878.ApiManger>()),
     );
@@ -106,8 +119,18 @@ extension GetItInjectableX on _i174.GetIt {
         homeTabDataSource: gh<_i436.HomeTabDataSource>(),
       ),
     );
+    gh.factory<_i686.EditProfileRepository>(
+      () => _i85.EditProfileRepositoryImpl(
+        dataSource: gh<_i94.EditProfileDataSource>(),
+      ),
+    );
     gh.factory<_i892.SignUpViewModel>(
       () => _i892.SignUpViewModel(authRepository: gh<_i252.AuthRepository>()),
+    );
+    gh.factory<_i9.EditProfileViewModel>(
+      () => _i9.EditProfileViewModel(
+        repository: gh<_i686.EditProfileRepository>(),
+      ),
     );
     return this;
   }

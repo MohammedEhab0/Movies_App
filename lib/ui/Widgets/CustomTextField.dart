@@ -7,6 +7,8 @@ class CustomTextField extends StatelessWidget {
   Color? colorBorder;
   Color? cursorColor;
   String? hintText;
+  bool? isFilled;
+  Color? fillColor;
   TextStyle? hintTextStyle;
   int? maxLine;
   String? labelText;
@@ -27,6 +29,8 @@ class CustomTextField extends StatelessWidget {
       this.cursorColor,
       this.hintTextStyle,
       this.prefixIcon,
+      this.fillColor,
+      this.isFilled,
       this.prefixIconColor,
       this.suffixIcon,
       this.suffixIconColor,
@@ -48,6 +52,8 @@ class CustomTextField extends StatelessWidget {
         maxLines: maxLine ?? 1,
         cursorColor: cursorColor ?? AppColors.yellowColor,
         decoration: InputDecoration(
+            filled: isFilled ?? false,
+            fillColor: fillColor ?? AppColors.transparentColor,
             suffixIconColor: suffixIconColor,
             suffixIcon: suffixIcon,
             labelText: labelText,

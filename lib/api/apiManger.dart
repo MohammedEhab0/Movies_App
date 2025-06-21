@@ -1,4 +1,3 @@
-import 'package:copy_movie/api/apiConstants.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -11,7 +10,16 @@ class ApiManger {
     required String endPoint,
     Map<String, dynamic>? queryParameters,
   }) {
-    return dio.get(baseUrl + endPoint, queryParameters: queryParameters);
+    return dio.get(
+      baseUrl + endPoint,
+      queryParameters: queryParameters,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      ),
+    );
   }
 
   Future<Response> postData({
@@ -26,16 +34,67 @@ class ApiManger {
       data: body,
       options: Options(
         validateStatus: (status) => true,
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+        },
       ),
     );
   }
 
-  Future<Response> getMovieDetails(int movieId) {
-    return getData(
-      baseUrl: ApiConstants.moviesBaseUrl,
-      endPoint: "/movie_details.json",
-      queryParameters: {"movie_id": movieId, "with_cast": "true"},
+  /// get user date
+  Future<Response> getUser({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+  }) {
+    return dio.get(
+      baseUrl + endPoint,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token'
+        },
+      ),
+    );
+  }
+
+  /// update user data
+  Future<Response> updateUser({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+    Map<String, dynamic>? body,
+  }) {
+    return dio.patch(
+      baseUrl + endPoint,
+      data: body,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+          "Accept": "application/json"
+        },
+      ),
+    );
+  }
+
+  /// delete user
+  Future<Response> deleteUser({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+  }) {
+    return dio.delete(
+      baseUrl + endPoint,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token'
+        },
+      ),
     );
   }
 }
