@@ -4,6 +4,7 @@ class EndPoints {
   static const String listMovies = "/list_movies.json";
 
   static const String profile = "/profile";
+  static const String user = "profile";
   static const String favourite = "/favorites/all";
 
 

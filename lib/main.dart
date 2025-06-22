@@ -1,20 +1,19 @@
 import 'package:copy_movie/ui/homescreen/onboarding/onboarding.dart';
 import 'package:copy_movie/ui/homescreen/tabs/profile/edit%20profile/edit_profile.dart';
-import 'package:flutter/material.dart';
+import 'package:copy_movie/ui/homescreen/tabs/profile/profile_tab.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'UI/Di/di.dart';
-import 'utils/my_BlocObserver.dart';
-import 'utils/app_theme.dart';
-
 import 'Providers/SettingProvider.dart';
 import 'Providers/UserProvider.dart';
-
+import 'UI/Di/di.dart';
 import 'UI/auth/login/Login.dart';
 import 'UI/auth/register/Register.dart';
 import 'UI/homescreen/home_screen.dart';
+import 'utils/app_theme.dart';
+import 'utils/my_BlocObserver.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,6 +67,7 @@ class MyApp extends StatelessWidget {
         Register.routeName: (context) => const Register(),
         HomeScreen.routeName: (context) => const HomeScreen(),
         EditProfile.routeName: (context) => EditProfile(),
+        ProfileTab.routeName: (context) => ProfileTab(),
       },
     );
   }

@@ -1,12 +1,8 @@
 import 'package:copy_movie/Providers/UserProvider.dart';
-
-=======
-import 'package:copy_movie/utils/app_routes.dart';
-import 'package:flutter/material.dart';
-
 import 'package:copy_movie/UI/Widgets/CustomElevatedButton.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
+import 'package:copy_movie/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +13,7 @@ import 'cubit/profile_and_favourite_states.dart';
 import 'cubit/profile_and_favourite_view_model.dart';
 
 class ProfileTab extends StatefulWidget {
+  static String routeName = 'ProfileTab';
   ProfileTab({super.key});
 
   @override

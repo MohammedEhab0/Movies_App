@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../utils/app_colors.dart';
+import '../profile_tab.dart';
 
 class EditProfile extends StatefulWidget {
   static String routeName = 'updateProfile';
@@ -48,7 +49,15 @@ class _EditProfileState extends State<EditProfile> {
                 context: context,
                 message: state.message,
                 posActionName: 'ok',
-                posAction: () => Navigator.of(context).pop(),
+                posAction: () {
+                  Future.delayed(Duration.zero, () {
+                    Navigator.of(context).pushReplacementNamed(
+                      ProfileTab.routeName,
+
+
+                    );
+                  });
+                },
               );
             } else if (state is UpdateProfileDeleteActionState) {
               return DialogUtils.showMessage(
