@@ -20,24 +20,23 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   ProfileViewModel viewModel = getIt<ProfileViewModel>();
+  late UserProvider userProvider;
 
   @override
   void initState() {
-    // TODO: implement initState
-    viewModel.fetchProfile();
-    viewModel.fetchFavourites();
     super.initState();
-
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    viewModel.fetchProfile(userProvider.currentUser!.token);
+    viewModel.fetchFavourites(userProvider.currentUser!.token);
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    var userProvider = Provider.of<UserProvider>(context);
 
     return BlocProvider<ProfileViewModel>(
-      create: (_) => viewModel..fetchProfile(),
+      create: (_) => viewModel,
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -49,12 +48,12 @@ class _ProfileTabState extends State<ProfileTab> {
                   builder: (context, state) {
                     if (state is ProfilesLoading) {
                       return SizedBox(
-                        height: height * 0.4,
+                        height: height * 0.35,
                         child: Center(child: CircularProgressIndicator()),
                       );
                     } else if (state is ProfilesError) {
                       return SizedBox(
-                        height: height * 0.4,
+                        height: height * 0.35,
                         child: Center(
                           child: Text(
                             state.message,
@@ -71,7 +70,6 @@ class _ProfileTabState extends State<ProfileTab> {
                           : AppAssets.character1;
 
                       return Container(
-                        height: height * 0.4,
                         color: AppColors.lightBlack,
                         padding: EdgeInsets.symmetric(
                           horizontal: width * 0.04,
@@ -131,93 +129,95 @@ class _ProfileTabState extends State<ProfileTab> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: height * 0.005),
-                            TabBar(
-                              indicatorColor: AppColors.yellowColor,
-                              indicatorSize: TabBarIndicatorSize.tab,
-                              tabs: [
-                                Tab(
-                                  icon: Icon(Icons.list, color: AppColors.yellowColor, size: width * 0.07),
-                                  child: Text(
-                                    'Watch List',
-                                    style: AppStyles.regular20White.copyWith(fontSize: width * 0.04),
-                                  ),
-                                ),
-                                Tab(
-                                  icon: Icon(Icons.folder, color: AppColors.yellowColor, size: width * 0.07),
-                                  child: Text(
-                                    'History',
-                                    style: AppStyles.regular20White.copyWith(fontSize: width * 0.04),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       );
                     } else {
-                      return SizedBox(
-                        height: height * 0.4,
-                        child: const Center(child: CircularProgressIndicator()),
-                      );
+                      return SizedBox.shrink();
                     }
                   },
                 ),
+                // 👇 Moved TabBar outside the profile header section
+                TabBar(
+                  indicatorColor: AppColors.yellowColor,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.list, color: AppColors.yellowColor,
+                          size: width * 0.07),
+                      child: Text(
+                        'Watch List',
+                        style: AppStyles.regular20White.copyWith(
+                            fontSize: width * 0.04),
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.folder, color: AppColors.yellowColor,
+                          size: width * 0.07),
+                      child: Text(
+                        'History',
+                        style: AppStyles.regular20White.copyWith(
+                            fontSize: width * 0.04),
+                      ),
+                    ),
+                  ],
+                ),
+                // 👇 This takes the remaining space and avoids overflow
                 Expanded(
-                  child: Container(
-                    color: Colors.black,
-                    child: TabBarView(
-                      children: [
-                        BlocBuilder<ProfileViewModel, ProfilesStates>(
-                          builder: (context, state) {
-                            if (state is FavouritesLoading) {
-                              return Center(child: CircularProgressIndicator());
-                            } else if (state is FavouritesError) {
+                  child: TabBarView(
+                    children: [
+                      BlocBuilder<ProfileViewModel, ProfilesStates>(
+                        builder: (context, state) {
+                          if (state is FavouritesLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is FavouritesError) {
+                            return Center(
+                              child: Text(
+                                state.message,
+                                style: AppStyles.regular20White,
+                              ),
+                            );
+                          } else if (state is FavouritesSuccess) {
+                            final favourites = state.favourites;
+                            if (favourites.isEmpty) {
                               return Center(
-                                child: Text(
-                                  state.message,
-                                  style: AppStyles.regular20White,
+                                child: Image.asset(
+                                  AppAssets.profileEmpty,
+                                  width: width * 0.5,
                                 ),
                               );
-                            } else if (state is FavouritesSuccess) {
-                              final favourites = state.favourites;
-                              if (favourites.isEmpty) {
-                                return Center(
-                                  child: Image.asset(
-                                    AppAssets.profileEmpty,
-                                    width: width * 0.5,
-                                  ),
-                                );
-                              } else {
-                                return ListView.builder(
-                                  itemCount: favourites.length,
-                                  itemBuilder: (context, index) {
-                                    final item = favourites[index];
-                                    return ListTile(
-                                      leading: Image.network(
-                                        item.posterPath,
-                                        width: 50,
-                                        height: 70,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      title: Text(
-                                        item.title,
-                                        style: AppStyles.bold20White.copyWith(fontSize: width * 0.04),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
                             } else {
-                              return Center(child: Text("Something went wrong", style: AppStyles.regular20White));
+                              return ListView.builder(
+                                itemCount: favourites.length,
+                                itemBuilder: (context, index) {
+                                  final item = favourites[index];
+                                  return ListTile(
+                                    leading: Image.network(
+                                      item.posterPath,
+                                      width: 50,
+                                      height: 70,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    title: Text(
+                                      item.title,
+                                      style: AppStyles.bold20White.copyWith(
+                                          fontSize: width * 0.04),
+                                    ),
+                                  );
+                                },
+                              );
                             }
-                          },
-                        ),
-                        Center(
-                          child: Icon(Icons.history, size: width * 0.25, color: AppColors.yellowColor),
-                        ),
-                      ],
-                    ),
+                          } else {
+                            return Center(child: Text("Something went wrong",
+                                style: AppStyles.regular20White));
+                          }
+                        },
+                      ),
+                      Center(
+                        child: Icon(Icons.history, size: width * 0.25,
+                            color: AppColors.yellowColor),
+                      ),
+                    ],
                   ),
                 ),
               ],

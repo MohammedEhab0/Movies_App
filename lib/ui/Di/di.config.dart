@@ -8,22 +8,12 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:copy_movie/api/apiManger.dart' as _i878;
 import 'package:copy_movie/Data/data_sources/profileRemoteDataSource.dart'
     as _i617;
-import 'package:copy_movie/Data/data_sources/remote/auth_remote_data_source.dart'
-    as _i144;
-import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data_source.dart'
-    as _i351;
-import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data_source_impl.dart'
-    as _i572;
 import 'package:copy_movie/Data/data_sources/remote/FavouriteRemoteDataSource.dart'
     as _i996;
 import 'package:copy_movie/Data/data_sources/remote/HomeTabDataSource.dart'
     as _i436;
-import 'package:copy_movie/Data/data_sources/remote/Impl/auth_remote_daraSource_impl.dart'
-    as _i606;
 import 'package:copy_movie/Data/data_sources/remote/Impl/FavouriteRemoteDataSourceImpl.dart'
     as _i73;
 import 'package:copy_movie/Data/data_sources/remote/Impl/HomeTabDataSourceImpl.dart'
@@ -32,8 +22,24 @@ import 'package:copy_movie/Data/data_sources/remote/Impl/ProfileRemoteDataSource
     as _i865;
 import 'package:copy_movie/Data/data_sources/remote/Impl/SearchRemoteDataSourceImpl.dart'
     as _i875;
+import 'package:copy_movie/Data/data_sources/remote/Impl/auth_remote_daraSource_impl.dart'
+    as _i606;
 import 'package:copy_movie/Data/data_sources/remote/SearchRemoteDataSource.dart'
     as _i781;
+import 'package:copy_movie/Data/data_sources/remote/auth_remote_data_source.dart'
+    as _i144;
+import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data_source.dart'
+    as _i351;
+import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data_source_impl.dart'
+    as _i572;
+import 'package:copy_movie/Data/repositories/FavouriteItems/FavouriteRepositoryImpl.dart'
+    as _i952;
+import 'package:copy_movie/Data/repositories/FavouriteItems/favouriteRepository.dart'
+    as _i857;
+import 'package:copy_movie/Data/repositories/HomeRepository.dart' as _i829;
+import 'package:copy_movie/Data/repositories/HomeRepositoryImpl.dart' as _i964;
+import 'package:copy_movie/Data/repositories/SearchRepository.dart' as _i390;
+import 'package:copy_movie/Data/repositories/SearchRepositoryImpl.dart' as _i25;
 import 'package:copy_movie/Data/repositories/auth/auth_repository.dart'
     as _i252;
 import 'package:copy_movie/Data/repositories/auth/auth_repository_impl.dart'
@@ -42,19 +48,13 @@ import 'package:copy_movie/Data/repositories/browse%20tab/browse_tab_repository.
     as _i868;
 import 'package:copy_movie/Data/repositories/browse%20tab/browse_tab_repository_impl.dart'
     as _i885;
-import 'package:copy_movie/Data/repositories/FavouriteItems/favouriteRepository.dart'
-    as _i857;
-import 'package:copy_movie/Data/repositories/FavouriteItems/FavouriteRepositoryImpl.dart'
-    as _i952;
 import 'package:copy_movie/Data/repositories/getProfile/ProfileRepository.dart'
     as _i634;
 import 'package:copy_movie/Data/repositories/getProfile/ProfileRepositoryImpl.dart'
     as _i897;
-import 'package:copy_movie/Data/repositories/HomeRepository.dart' as _i829;
-import 'package:copy_movie/Data/repositories/HomeRepositoryImpl.dart' as _i964;
-import 'package:copy_movie/Data/repositories/SearchRepository.dart' as _i390;
-import 'package:copy_movie/Data/repositories/SearchRepositoryImpl.dart' as _i25;
 import 'package:copy_movie/Providers/UserProvider.dart' as _i427;
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:copy_movie/api/apiManger.dart' as _i878;
 import 'package:copy_movie/ui/auth/login/Cubit/login_view_model.dart' as _i1061;
 import 'package:copy_movie/ui/auth/register/Cubit/register_view_model.dart'
     as _i892;
@@ -144,7 +144,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i414.ProfileViewModel(
         profileRepository: gh<_i634.ProfileRepository>(),
         favouriteRepository: gh<_i857.FavouriteRepository>(),
-        userProvider: gh<_i427.UserProvider>(),
       ),
     );
     gh.factory<_i892.SignUpViewModel>(
