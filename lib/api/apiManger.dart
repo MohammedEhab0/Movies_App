@@ -9,6 +9,7 @@ class ApiManger {
     required String baseUrl,
     required String endPoint,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
   }) {
     return dio.get(
       baseUrl + endPoint,
@@ -17,6 +18,7 @@ class ApiManger {
         validateStatus: (status) => true,
         headers: {
           "Content-Type": "application/json",
+          if(headers!=null)...headers //spread operator
         },
       ),
     );
