@@ -9,17 +9,19 @@ class MovieSlider extends StatelessWidget {
     super.key,
     required this.height,
     required this.slider,
-    required this.onItemTap,
+    required this.onItemTap, required this.onPageChanged
   });
 
   final double height;
   final List<Movies> slider;
   final Function(int index) onItemTap;
+  final Function(int index, CarouselPageChangedReason carouselPageChangedReason) onPageChanged;
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
       options: CarouselOptions(
+        onPageChanged: onPageChanged,
         height: height * 0.42,
         enlargeCenterPage: true,
         viewportFraction: 0.65,

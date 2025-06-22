@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:copy_movie/ui/Widgets/movie_card.dart';
 import 'package:copy_movie/ui/Widgets/movie_slider.dart';
 import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_states.dart';
@@ -99,6 +100,16 @@ class _HomePageState extends State<HomeTab> {
                             newIndex = index;
                           });
                         },
+                        onPageChanged:
+                            (
+                              int index,
+                              CarouselPageChangedReason
+                              carouselPageChangedReason,
+                            ) {
+                              setState(() {
+                                newIndex = index;
+                              });
+                            },
                       ),
                       SizedBox(height: height * 0.03),
                       Center(
