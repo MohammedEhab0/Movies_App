@@ -1,12 +1,20 @@
 import 'package:copy_movie/Providers/UserProvider.dart';
+
+=======
 import 'package:copy_movie/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+
 import 'package:copy_movie/UI/Widgets/CustomElevatedButton.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/app_styles.dart';
+import '../../../Di/di.dart';
+import 'cubit/profile_and_favourite_states.dart';
+import 'cubit/profile_and_favourite_view_model.dart';
 
 class ProfileTab extends StatefulWidget {
   ProfileTab({super.key});
@@ -16,131 +24,209 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  ProfileViewModel viewModel = getIt<ProfileViewModel>();
+  late UserProvider userProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    viewModel.fetchProfile(userProvider.currentUser!.token);
+    viewModel.fetchFavourites(userProvider.currentUser!.token);
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    var userProvider = Provider.of<UserProvider>(context);
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: AppColors.blackColor,
-        body: SafeArea(
-          child: Expanded(
+    return BlocProvider<ProfileViewModel>(
+      create: (_) => viewModel,
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          backgroundColor: AppColors.blackColor,
+          body: SafeArea(
             child: Column(
               children: [
-                Container(
-                  height: height * 0.4,
-                  color: AppColors.lightBlack,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.04,
-                    vertical: height * 0.025,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: width * 0.12,
-                            backgroundColor: AppColors.whiteColor,
-                            backgroundImage: AssetImage(AppAssets.character8),
+                BlocBuilder<ProfileViewModel, ProfilesStates>(
+                  builder: (context, state) {
+                    if (state is ProfilesLoading) {
+                      return SizedBox(
+                        height: height * 0.35,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    } else if (state is ProfilesError) {
+                      return SizedBox(
+                        height: height * 0.35,
+                        child: Center(
+                          child: Text(
+                            state.message,
+                            style: AppStyles.regular20White,
+                            textAlign: TextAlign.center,
                           ),
-                          SizedBox(width: width * 0.03),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        ),
+                      );
+                    } else if (state is ProfilesSuccess) {
+                      final profile = state.profile;
+                      final avatarIndex = profile.data?.avaterId ?? 0;
+                      final avatarPath = (avatarIndex >= 0 && avatarIndex < viewModel.avatarList.length)
+                          ? viewModel.avatarList[avatarIndex]
+                          : AppAssets.character1;
+
+                      return Container(
+                        color: AppColors.lightBlack,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.04,
+                          vertical: height * 0.025,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Column(
-                                  children: [
-                                    Text('12', style: AppStyles.bold36White.copyWith(fontSize: width * 0.08)),
-                                    SizedBox(height: height * 0.005),
-                                    Text('Wish List', style: AppStyles.bold24White.copyWith(fontSize: width * 0.045)),
-                                  ],
+                                CircleAvatar(
+                                  radius: width * 0.12,
+                                  backgroundColor: AppColors.whiteColor,
+                                  backgroundImage: AssetImage(avatarPath),
                                 ),
-                                Column(
-                                  children: [
-                                    Text('10', style: AppStyles.bold36White.copyWith(fontSize: width * 0.08)),
-                                    SizedBox(height: height * 0.005),
-                                    Text('History', style: AppStyles.bold24White.copyWith(fontSize: width * 0.045)),
-                                  ],
+                                SizedBox(width: width * 0.03),
+                                Expanded(
+                                  child: Text(
+                                    profile.data?.name ?? 'no name',
+                                    style: AppStyles.bold20White.copyWith(fontSize: width * 0.05),
+                                  ),
                                 ),
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: height * 0.01),
-                      Text(overflow: TextOverflow.ellipsis,userProvider.currentUser!.token, style: AppStyles.bold20White.copyWith(fontSize: width * 0.05)),
-                      SizedBox(height: height * 0.02),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: CustomElevatedButton(
-                              bgColor: AppColors.yellowColor,
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(AppRoutes.updateProfileRoute);
-                              },
-                              textButton: 'Edit profile',
+
+                            SizedBox(height: height * 0.02),
+                            Text(
+                              userProvider.currentUser?.token ?? 'No token',
+                              overflow: TextOverflow.ellipsis,
+                              style: AppStyles.bold20White.copyWith(fontSize: width * 0.045),
+
                             ),
-                          ),
-                          SizedBox(width: width * 0.02),
-                          Expanded(
-                            flex: 1,
-                            child: CustomElevatedButton(
-                              textButton: 'Exit',
-                              bgColor: AppColors.redColor,
-                              icon: Icons.logout,
-                              textColor: Colors.white,
-                              textStyle: AppStyles.regular20White.copyWith(fontSize: width * 0.045),
-                              onPressed: () {},
+                            SizedBox(height: height * 0.02),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: CustomElevatedButton(
+                                    bgColor: AppColors.yellowColor,
+                                    onPressed: () {
+                                      // Edit profile action
+                                      Navigator.of(context).pushNamed(
+                                          AppRoutes.updateProfileRoute);
+                                    },
+                                    textButton: 'Edit profile',
+                                  ),
+                                ),
+                                SizedBox(width: width * 0.02),
+                                Expanded(
+                                  flex: 1,
+                                  child: CustomElevatedButton(
+                                    textButton: 'Exit',
+                                    bgColor: AppColors.redColor,
+                                    icon: Icons.logout,
+                                    textColor: Colors.white,
+                                    textStyle: AppStyles.regular20White.copyWith(fontSize: width * 0.045),
+                                    onPressed: () {
+                                      userProvider.logout();
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: height * 0.005),
-                      Expanded(
-                        child: Container(
-                          child: TabBar(
-                            indicatorColor: AppColors.yellowColor,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            tabs: [
-                              Tab(
-                                icon: Icon(Icons.list, color: AppColors.yellowColor, size: width * 0.07),
-                                child: Text('Watch List', style: AppStyles.regular20White.copyWith(fontSize: width * 0.04)),
-                              ),
-                              Tab(
-                                icon: Icon(Icons.folder, color: AppColors.yellowColor, size: width * 0.07),
-                                child: Text('History', style: AppStyles.regular20White.copyWith(fontSize: width * 0.04)),
-                              ),
-                            ],
-                          ),
+                          ],
                         ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                ),
+                // 👇 Moved TabBar outside the profile header section
+                TabBar(
+                  indicatorColor: AppColors.yellowColor,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.list, color: AppColors.yellowColor,
+                          size: width * 0.07),
+                      child: Text(
+                        'Watch List',
+                        style: AppStyles.regular20White.copyWith(
+                            fontSize: width * 0.04),
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.folder, color: AppColors.yellowColor,
+                          size: width * 0.07),
+                      child: Text(
+                        'History',
+                        style: AppStyles.regular20White.copyWith(
+                            fontSize: width * 0.04),
+                      ),
+                    ),
+                  ],
+                ),
+                // 👇 This takes the remaining space and avoids overflow
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      BlocBuilder<ProfileViewModel, ProfilesStates>(
+                        builder: (context, state) {
+                          if (state is FavouritesLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (state is FavouritesError) {
+                            return Center(
+                              child: Text(
+                                state.message,
+                                style: AppStyles.regular20White,
+                              ),
+                            );
+                          } else if (state is FavouritesSuccess) {
+                            final favourites = state.favourites;
+                            if (favourites.isEmpty) {
+                              return Center(
+                                child: Image.asset(
+                                  AppAssets.profileEmpty,
+                                  width: width * 0.5,
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: favourites.length,
+                                itemBuilder: (context, index) {
+                                  final item = favourites[index];
+                                  return ListTile(
+                                    leading: Image.network(
+                                      item.posterPath,
+                                      width: 50,
+                                      height: 70,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    title: Text(
+                                      item.title,
+                                      style: AppStyles.bold20White.copyWith(
+                                          fontSize: width * 0.04),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          } else {
+                            return Center(child: Text("Something went wrong",
+                                style: AppStyles.regular20White));
+                          }
+                        },
+                      ),
+                      Center(
+                        child: Icon(Icons.history, size: width * 0.25,
+                            color: AppColors.yellowColor),
                       ),
                     ],
-                  ),
-                ),
-
-                // Bottom tab content
-                Expanded(
-                  child: Container(
-                    color: Colors.black,
-                    child: TabBarView(
-                      children: [
-                        Center(
-                          child: Image.asset(
-                            AppAssets.profileEmpty,
-                            width: width * 0.5,
-                          ),
-                        ),
-                        Center(
-                          child: Icon(Icons.history, size: width * 0.25, color: AppColors.yellowColor),
-                        ),
-                      ],
-                    ),
                   ),
                 ),
               ],
