@@ -67,6 +67,7 @@ class _EditProfileState extends State<EditProfile> {
                 posAction: () {
                   Navigator.of(context).pop();
                   Future.delayed(Duration.zero, () {
+                    userProvider.logout();
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       Login.routeName,
                           (route) => false,

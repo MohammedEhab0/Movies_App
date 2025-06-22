@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../utils/app_styles.dart';
 import '../../../Di/di.dart';
+import '../../../auth/login/Login.dart';
 import 'cubit/profile_and_favourite_states.dart';
 import 'cubit/profile_and_favourite_view_model.dart';
 
@@ -130,6 +131,13 @@ class _ProfileTabState extends State<ProfileTab> {
                                     textStyle: AppStyles.regular20White.copyWith(fontSize: width * 0.045),
                                     onPressed: () {
                                       userProvider.logout();
+                                      Future.delayed(Duration.zero, () {
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                          Login.routeName,
+                                              (route) => false,
+                                        );
+                                      });
                                     },
                                   ),
                                 ),
