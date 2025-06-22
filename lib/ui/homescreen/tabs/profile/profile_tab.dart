@@ -109,6 +109,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                     bgColor: AppColors.yellowColor,
                                     onPressed: () {
                                       // Edit profile action
+                                      Navigator.of(context).pushNamed(
+                                          AppRoutes.updateProfileRoute);
                                     },
                                     textButton: 'Edit profile',
                                   ),
