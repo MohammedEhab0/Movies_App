@@ -3,6 +3,8 @@ import 'package:copy_movie/Providers/UserProvider.dart';
 import 'package:copy_movie/ui/homescreen/tabs/profile/cubit/profile_and_favourite_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../../Data/repositories/FavouriteItems/favouriteRepository.dart';
 import '../../../../../utils/app_assets.dart';
 
@@ -10,8 +12,8 @@ import '../../../../../utils/app_assets.dart';
 class ProfileViewModel extends Cubit<ProfilesStates> {
   final ProfileRepository profileRepository;
   final FavouriteRepository favouriteRepository;
-  final UserProvider userProvider;
 
+  var userProvider = Provider.of<UserProvider>(context);
   ProfileViewModel({
     required this.profileRepository,
     required this.favouriteRepository,

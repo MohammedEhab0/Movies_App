@@ -19,24 +19,25 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  late ProfileViewModel viewModel;
+  ProfileViewModel viewModel = getIt<ProfileViewModel>();
 
   @override
   void initState() {
-    super.initState();
-    viewModel = getIt<ProfileViewModel>();
+    // TODO: implement initState
     viewModel.fetchProfile();
     viewModel.fetchFavourites();
+    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    UserProvider userProvider = Provider.of<UserProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     return BlocProvider<ProfileViewModel>(
-      create: (_) => viewModel,
+      create: (_) => viewModel..fetchProfile(),
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
