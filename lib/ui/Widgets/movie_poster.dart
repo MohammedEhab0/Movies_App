@@ -5,8 +5,8 @@ import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MoviePoster extends StatelessWidget {
-  const MoviePoster(
+class CustomImage extends StatelessWidget {
+  const CustomImage(
     this.image, {
     super.key,
     this.width = 100,
@@ -90,12 +90,10 @@ class MoviePosterCard extends StatelessWidget {
         width: width ?? 198,
         height: height ?? 279,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
-            MoviePoster(
+            CustomImage(
               movie.mediumCoverImage ?? '',
               width: width ?? 198,
               height: height ?? 279,
@@ -108,7 +106,7 @@ class MoviePosterCard extends StatelessWidget {
               top: 8,
               left: 8,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.whiteBgColor,
                   borderRadius: BorderRadius.circular(12),
@@ -118,13 +116,13 @@ class MoviePosterCard extends StatelessWidget {
                   children: [
                     Text(
                       movie.rating?.toString() ?? '',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.yellowColor,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     SvgPicture.asset(
                       AppAssets.starIcon,
                       color: AppColors.yellowColor,

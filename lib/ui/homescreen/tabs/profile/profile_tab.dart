@@ -1,4 +1,9 @@
 import 'package:copy_movie/Providers/UserProvider.dart';
+
+=======
+import 'package:copy_movie/utils/app_routes.dart';
+import 'package:flutter/material.dart';
+
 import 'package:copy_movie/UI/Widgets/CustomElevatedButton.dart';
 import 'package:copy_movie/utils/app_assets.dart';
 import 'package:copy_movie/utils/app_colors.dart';
@@ -94,11 +99,13 @@ class _ProfileTabState extends State<ProfileTab> {
                                 ),
                               ],
                             ),
+
                             SizedBox(height: height * 0.02),
                             Text(
                               userProvider.currentUser?.token ?? 'No token',
                               overflow: TextOverflow.ellipsis,
                               style: AppStyles.bold20White.copyWith(fontSize: width * 0.045),
+
                             ),
                             SizedBox(height: height * 0.02),
                             Row(

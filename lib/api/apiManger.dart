@@ -42,4 +42,61 @@ class ApiManger {
       ),
     );
   }
+
+  /// get user date
+  Future<Response> getUser({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+  }) {
+    return dio.get(
+      baseUrl + endPoint,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token'
+        },
+      ),
+    );
+  }
+
+  /// update user data
+  Future<Response> updateUser({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+    Map<String, dynamic>? body,
+  }) {
+    return dio.patch(
+      baseUrl + endPoint,
+      data: body,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+          "Accept": "application/json"
+        },
+      ),
+    );
+  }
+
+  /// delete user
+  Future<Response> deleteUser({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+  }) {
+    return dio.delete(
+      baseUrl + endPoint,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token'
+        },
+      ),
+    );
+  }
 }

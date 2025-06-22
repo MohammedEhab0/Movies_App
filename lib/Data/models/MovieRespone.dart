@@ -1,10 +1,7 @@
+import 'dart:convert';
+
 class MoviesResponse {
-  MoviesResponse({
-    this.status,
-    this.statusMessage,
-    this.data,
-    this.meta,
-  });
+  MoviesResponse({this.status, this.statusMessage, this.data, this.meta});
 
   MoviesResponse.fromJson(dynamic json) {
     status = json['status'];
@@ -12,6 +9,7 @@ class MoviesResponse {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
     meta = json['@meta'] != null ? Meta.fromJson(json['@meta']) : null;
   }
+
   String? status;
   String? statusMessage;
   Data? data;
@@ -45,6 +43,7 @@ class Meta {
     apiVersion = json['api_version'];
     executionTime = json['execution_time'];
   }
+
   int? serverTime;
   String? serverTimezone;
   int? apiVersion;
@@ -61,12 +60,7 @@ class Meta {
 }
 
 class Data {
-  Data({
-    this.movieCount,
-    this.limit,
-    this.pageNumber,
-    this.movies,
-  });
+  Data({this.movieCount, this.limit, this.pageNumber, this.movies});
 
   Data.fromJson(dynamic json) {
     movieCount = json['movie_count'];
@@ -79,6 +73,7 @@ class Data {
       });
     }
   }
+
   int? movieCount;
   int? limit;
   int? pageNumber;
@@ -120,10 +115,16 @@ class Movies {
     this.smallCoverImage,
     this.mediumCoverImage,
     this.largeCoverImage,
+    this.mediumScreenshotImage1,
+    this.mediumScreenshotImage2,
+    this.mediumScreenshotImage3,
     this.state,
     this.torrents,
     this.dateUploaded,
     this.dateUploadedUnix,
+    this.likeCount,
+    this.viewCount,
+    this.cast,
   });
 
   Movies.fromJson(dynamic json) {
@@ -149,16 +150,28 @@ class Movies {
     smallCoverImage = json['small_cover_image'];
     mediumCoverImage = json['medium_cover_image'];
     largeCoverImage = json['large_cover_image'];
+    mediumScreenshotImage1 = json['medium_screenshot_image1'];
+    mediumScreenshotImage2 = json['medium_screenshot_image2'];
+    mediumScreenshotImage3 = json['medium_screenshot_image3'];
     state = json['state'];
+    likeCount = json['like_count'];
+    viewCount = json['download_count'];
     if (json['torrents'] != null) {
       torrents = [];
       json['torrents'].forEach((v) {
         torrents?.add(Torrents.fromJson(v));
       });
     }
+    if (json['cast'] != null) {
+      cast = [];
+      json['cast'].forEach((v) {
+        cast?.add(Cast.fromJson(v));
+      });
+    }
     dateUploaded = json['date_uploaded'];
     dateUploadedUnix = json['date_uploaded_unix'];
   }
+
   int? id;
   String? url;
   String? imdbCode;
@@ -181,10 +194,16 @@ class Movies {
   String? smallCoverImage;
   String? mediumCoverImage;
   String? largeCoverImage;
+  String? mediumScreenshotImage1;
+  String? mediumScreenshotImage2;
+  String? mediumScreenshotImage3;
   String? state;
   List<Torrents>? torrents;
   String? dateUploaded;
   int? dateUploadedUnix;
+  int? likeCount;
+  int? viewCount;
+  List<Cast>? cast;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -210,9 +229,17 @@ class Movies {
     map['small_cover_image'] = smallCoverImage;
     map['medium_cover_image'] = mediumCoverImage;
     map['large_cover_image'] = largeCoverImage;
+    map['medium_screenshot_image1'] = mediumScreenshotImage1;
+    map['medium_screenshot_image2'] = mediumScreenshotImage2;
+    map['medium_screenshot_image3'] = mediumScreenshotImage3;
     map['state'] = state;
+    map['like_count'] = likeCount;
+    map['download_count'] = viewCount;
     if (torrents != null) {
       map['torrents'] = torrents?.map((v) => v.toJson()).toList();
+    }
+    if (cast != null) {
+      map['cast'] = cast?.map((v) => v.toJson()).toList();
     }
     map['date_uploaded'] = dateUploaded;
     map['date_uploaded_unix'] = dateUploadedUnix;
@@ -254,6 +281,7 @@ class Torrents {
     dateUploaded = json['date_uploaded'];
     dateUploadedUnix = json['date_uploaded_unix'];
   }
+
   String? url;
   String? hash;
   String? quality;
@@ -286,5 +314,29 @@ class Torrents {
     map['date_uploaded'] = dateUploaded;
     map['date_uploaded_unix'] = dateUploadedUnix;
     return map;
+  }
+}
+
+class Cast {
+  final String? name;
+  final String? characterName;
+  final String? image;
+
+  Cast({this.name, this.characterName, this.image});
+
+  factory Cast.fromJson(Map<String, dynamic> json) {
+    return Cast(
+      name: json['name'],
+      characterName: json['character_name'],
+      image: json['url_small_image'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'character_name': characterName,
+      'url_small_image': image,
+    };
   }
 }
