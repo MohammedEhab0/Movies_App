@@ -34,7 +34,11 @@ class MoviesCubit extends Cubit<MoviesState> {
       final response = await apimanger.getData(
         baseUrl: ApiConstants.moviesBaseUrl,
         endPoint: "/movie_details.json",
-        queryParameters: {"movie_id": movieId, "with_cast": "true"},
+        queryParameters: {
+          "movie_id": movieId,
+          "with_cast": "true",
+          "with_images": "true"
+        },
       );
 
       if (response.statusCode == 200 && response.data["status"] == "ok") {

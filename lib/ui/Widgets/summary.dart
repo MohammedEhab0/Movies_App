@@ -2,6 +2,7 @@ import 'package:copy_movie/Data/models/MovieRespone.dart';
 import 'package:copy_movie/utils/app_colors.dart';
 import 'package:copy_movie/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+
 import 'cast_container.dart';
 
 class SummaryAndCast extends StatelessWidget {
@@ -20,7 +21,7 @@ class SummaryAndCast extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Summary",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),

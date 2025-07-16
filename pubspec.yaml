@@ -54,6 +54,7 @@ dependencies:
   fluttertoast: ^8.2.12
   youtube_player_flutter: ^9.1.1
   flutter_inappwebview: ^6.0.0-beta.25
+  equatable: ^2.0.5
 
 
 

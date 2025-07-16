@@ -29,6 +29,7 @@ class ApiManger {
     required String endPoint,
     Map<String, dynamic>? queryParameters,
     Object? body,
+    Map<String, dynamic>? headers, // <-- add this
   }) {
     return dio.post(
       baseUrl + endPoint,
@@ -38,10 +39,12 @@ class ApiManger {
         validateStatus: (status) => true,
         headers: {
           "Content-Type": "application/json",
+          if (headers != null) ...headers,
         },
       ),
     );
   }
+
 
   /// get user date
   Future<Response> getUser({
@@ -90,6 +93,25 @@ class ApiManger {
   }) {
     return dio.delete(
       baseUrl + endPoint,
+      options: Options(
+        validateStatus: (status) => true,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token'
+        },
+      ),
+    );
+  }
+
+  Future<Response> deleteMovie({
+    required String baseUrl,
+    required String endPoint,
+    required String token,
+    Map<String, dynamic>? queryParameters,
+  }) {
+    return dio.delete(
+      baseUrl + endPoint,
+      queryParameters: queryParameters,
       options: Options(
         validateStatus: (status) => true,
         headers: {

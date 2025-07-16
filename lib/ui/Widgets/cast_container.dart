@@ -38,14 +38,31 @@ class CastContainer extends StatelessWidget {
                 : null,
           ),
           SizedBox(width: screenWidth * 0.04),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Name: $name", style: AppStyles.regular14White),
-              SizedBox(height: screenHeight * 0.01),
-              Text("Character: $character", style: AppStyles.regular14White),
-            ],
+          // FIX: Wrap the Column with an Expanded widget
+          Expanded(
+            // This Expanded widget will make the Column take up remaining space
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Name: $name",
+                  style: AppStyles.regular14White,
+                  maxLines: 1,
+                  // Added maxLines to prevent overflow within the Column
+                  overflow: TextOverflow
+                      .ellipsis, // Ensure ellipsis works if name is too long
+                ),
+                SizedBox(height: screenHeight * 0.01),
+                Text(
+                  "Character: $character",
+                  style: AppStyles.regular14White,
+                  maxLines: 1,
+                  // Added maxLines to prevent overflow within the Column
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ],
       ),
