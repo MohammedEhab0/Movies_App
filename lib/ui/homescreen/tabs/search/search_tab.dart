@@ -3,13 +3,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:copy_movie/ui/Widgets/movie_card.dart';
-import 'package:copy_movie/ui/homescreen/tabs/search/Cubit/SearchStates.dart';
-import 'package:copy_movie/ui/homescreen/tabs/search/Cubit/SearchViewModel.dart';
-import 'package:copy_movie/utils/app_assets.dart';
-import 'package:copy_movie/utils/app_colors.dart';
-import 'package:copy_movie/utils/app_styles.dart';
+import 'package:movie_app/ui/Widgets/movie_card.dart';
+import 'package:movie_app/ui/homescreen/tabs/search/Cubit/SearchStates.dart';
+import 'package:movie_app/ui/homescreen/tabs/search/Cubit/SearchViewModel.dart';
+import 'package:movie_app/utils/app_assets.dart';
+import 'package:movie_app/utils/app_colors.dart';
+import 'package:movie_app/utils/app_styles.dart';
 
 import '../../../Widgets/CustomTextField.dart';
 import '../../../movie details/movie_details_screen.dart';

@@ -1,12 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:copy_movie/Data/data_sources/remote/edit%20profile/edit_profile_date_source.dart';
-import 'package:copy_movie/Data/models/UserResponse.dart';
-import 'package:copy_movie/api/EndPoints.dart';
-import 'package:copy_movie/api/apiConstants.dart';
-import 'package:copy_movie/api/apiManger.dart';
-import 'package:copy_movie/errors/Errors.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/data_sources/remote/edit%20profile/edit_profile_date_source.dart';
+import 'package:movie_app/Data/models/UserResponse.dart';
+import 'package:movie_app/api/EndPoints.dart';
+import 'package:movie_app/api/apiConstants.dart';
+import 'package:movie_app/api/apiManger.dart';
+import 'package:movie_app/errors/Errors.dart';
 
 @Injectable(as : EditProfileDataSource)
 class EditProfileDataSourceImpl implements EditProfileDataSource{

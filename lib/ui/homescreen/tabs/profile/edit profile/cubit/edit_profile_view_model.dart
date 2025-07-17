@@ -1,9 +1,9 @@
-import 'package:copy_movie/Data/repositories/edit%20profile/edit_profile_repository.dart';
-import 'package:copy_movie/ui/homescreen/tabs/profile/edit%20profile/cubit/edit_profile_states.dart';
-import 'package:copy_movie/utils/app_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/repositories/edit%20profile/edit_profile_repository.dart';
+import 'package:movie_app/ui/homescreen/tabs/profile/edit%20profile/cubit/edit_profile_states.dart';
+import 'package:movie_app/utils/app_assets.dart';
 
 @injectable
 class EditProfileViewModel extends Cubit<UpdateProfileStates> {

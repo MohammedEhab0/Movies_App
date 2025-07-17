@@ -1,5 +1,5 @@
-import 'package:copy_movie/Data/models/registerResponse.dart';
-import 'package:copy_movie/errors/Errors.dart';
+import 'package:movie_app/Data/models/registerResponse.dart';
+import 'package:movie_app/errors/Errors.dart';
 
 abstract class RegisterStates {}
 

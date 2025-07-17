@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/utils/app_colors.dart';
 
 class MovieBrowseItem extends StatelessWidget {
   final Movies movies;

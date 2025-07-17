@@ -1,6 +1,6 @@
 // IMPORTANT: Make sure this import points to the REDEFINED FavouriteModelItem.dart
-import 'package:copy_movie/Data/models/FavouriteModelItem.dart'; // This now defines FavouriteItemModel directly
-import 'package:copy_movie/Data/models/ProfileModel.dart';
+import 'package:movie_app/Data/models/FavouriteModelItem.dart'; // This now defines FavouriteItemModel directly
+import 'package:movie_app/Data/models/ProfileModel.dart';
 
 abstract class ProfilesStates {}
 

@@ -1,6 +1,6 @@
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/utils/app_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/utils/app_assets.dart';
 
 class WatchBtnAndScreenShots extends StatelessWidget {
   final Movies movie;

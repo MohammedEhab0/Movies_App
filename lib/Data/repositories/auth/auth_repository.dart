@@ -1,5 +1,6 @@
-import 'package:copy_movie/Data/models/registerResponse.dart';
 import 'package:dartz/dartz.dart';
+import 'package:movie_app/Data/models/registerResponse.dart';
+
 import '../../../errors/Errors.dart';
 import '../../models/LoginResponse.dart';
 

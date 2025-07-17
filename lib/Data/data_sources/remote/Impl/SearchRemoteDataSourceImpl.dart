@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:copy_movie/Data/models/MovieRespone.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
 
 import '../../../../api/EndPoints.dart';
 import '../../../../api/apiConstants.dart';

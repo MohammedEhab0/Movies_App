@@ -1,8 +1,8 @@
-import 'package:copy_movie/Data/repositories/auth/auth_repository.dart';
-import 'package:copy_movie/ui/auth/login/Cubit/loginStates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/repositories/auth/auth_repository.dart';
+import 'package:movie_app/ui/auth/login/Cubit/loginStates.dart';
 
 import '../../../../Data/models/MyUser.dart';
 import '../../../../Providers/UserProvider.dart';

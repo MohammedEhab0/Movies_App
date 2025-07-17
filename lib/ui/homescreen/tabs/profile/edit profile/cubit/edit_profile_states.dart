@@ -1,4 +1,4 @@
-import 'package:copy_movie/Data/models/UserResponse.dart';
+import 'package:movie_app/Data/models/UserResponse.dart';
 
 class UpdateProfileStates {}
 

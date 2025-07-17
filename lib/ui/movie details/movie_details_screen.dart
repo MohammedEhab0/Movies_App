@@ -1,13 +1,13 @@
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/Providers/UserProvider.dart';
-import 'package:copy_movie/api/apiManger.dart';
-import 'package:copy_movie/ui/Widgets/movie_card.dart';
-import 'package:copy_movie/ui/Widgets/movie_play.dart';
-import 'package:copy_movie/ui/Widgets/summary.dart';
-import 'package:copy_movie/ui/Widgets/watchBtn_and_screen_shots.dart';
-import 'package:copy_movie/ui/movie details/favorite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/Providers/UserProvider.dart';
+import 'package:movie_app/api/apiManger.dart';
+import 'package:movie_app/ui/Widgets/movie_card.dart';
+import 'package:movie_app/ui/Widgets/movie_play.dart';
+import 'package:movie_app/ui/Widgets/summary.dart';
+import 'package:movie_app/ui/Widgets/watchBtn_and_screen_shots.dart';
+import 'package:movie_app/ui/movie details/favorite_cubit.dart';
 import 'package:provider/provider.dart';
 
 import '../Di/di.dart';

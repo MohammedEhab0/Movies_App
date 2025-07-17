@@ -1,11 +1,10 @@
-import 'package:copy_movie/ui/homescreen/tabs/explore/browse_tab.dart';
-import 'package:copy_movie/ui/homescreen/tabs/home/home_tab.dart';
-import 'package:copy_movie/ui/homescreen/tabs/profile/profile_tab.dart';
-import 'package:copy_movie/ui/homescreen/tabs/search/SearchTabWrapper.dart';
-import 'package:copy_movie/ui/homescreen/tabs/search/search_tab.dart';
-import 'package:copy_movie/utils/app_assets.dart';
-import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/ui/homescreen/tabs/explore/browse_tab.dart';
+import 'package:movie_app/ui/homescreen/tabs/home/home_tab.dart';
+import 'package:movie_app/ui/homescreen/tabs/profile/profile_tab.dart';
+import 'package:movie_app/ui/homescreen/tabs/search/SearchTabWrapper.dart';
+import 'package:movie_app/utils/app_assets.dart';
+import 'package:movie_app/utils/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'HomeScreen';

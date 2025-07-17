@@ -1,10 +1,10 @@
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/api/EndPoints.dart';
-import 'package:copy_movie/api/apiConstants.dart';
-import 'package:copy_movie/api/apiManger.dart';
-import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/api/EndPoints.dart';
+import 'package:movie_app/api/apiConstants.dart';
+import 'package:movie_app/api/apiManger.dart';
+import 'package:movie_app/ui/homescreen/tabs/home/Cubit/movie_states.dart';
 @injectable
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit() : super(MoviesLoading());

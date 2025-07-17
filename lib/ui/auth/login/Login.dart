@@ -1,11 +1,12 @@
-import 'package:copy_movie/UI/auth/login/Cubit/login_view_model.dart';
-import 'package:copy_movie/UI/auth/register/Register.dart';
-import 'package:copy_movie/UI/homescreen/home_screen.dart';
-import 'package:copy_movie/ui/auth/login/Cubit/loginStates.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/UI/auth/login/Cubit/login_view_model.dart';
+import 'package:movie_app/UI/auth/register/Register.dart';
+import 'package:movie_app/UI/homescreen/home_screen.dart';
+import 'package:movie_app/ui/auth/login/Cubit/loginStates.dart';
 import 'package:provider/provider.dart';
+
 import '../../../Data/data_sources/remote/Impl/auth_remote_daraSource_impl.dart';
 import '../../../Data/data_sources/remote/auth_remote_data_source.dart';
 import '../../../Data/repositories/auth/auth_repository.dart';
@@ -17,7 +18,6 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_styles.dart';
 import '../../../utils/dialog_utils.dart';
 import '../../../utils/validators.dart';
-import '../../Di/di.dart';
 import '../../Widgets/CustomElevatedButton.dart';
 import '../../Widgets/CustomTextField.dart';
 import '../../Widgets/ToggleLanguage.dart';

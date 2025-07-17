@@ -1,9 +1,9 @@
-import 'package:copy_movie/Data/data_sources/remote/browse%20tab/browse_tab_data_source.dart';
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/api/EndPoints.dart';
-import 'package:copy_movie/api/apiConstants.dart';
-import 'package:copy_movie/api/apiManger.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/data_sources/remote/browse%20tab/browse_tab_data_source.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/api/EndPoints.dart';
+import 'package:movie_app/api/apiConstants.dart';
+import 'package:movie_app/api/apiManger.dart';
 
 @Injectable(as: BrowseTabDataSource)
 class BrowseTabDataSourceImpl implements BrowseTabDataSource {

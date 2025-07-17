@@ -1,4 +1,4 @@
-# copy_movie
+# movie_app
 
 A new Flutter project.
 

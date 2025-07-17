@@ -1,10 +1,10 @@
-import 'package:copy_movie/UI/Di/di.dart';
-import 'package:copy_movie/ui/Widgets/browse_tabs.dart';
-import 'package:copy_movie/ui/Widgets/movie_browse_item.dart';
-import 'package:copy_movie/ui/homescreen/tabs/explore/Cubit/browse_states.dart';
-import 'package:copy_movie/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/UI/Di/di.dart';
+import 'package:movie_app/ui/Widgets/browse_tabs.dart';
+import 'package:movie_app/ui/Widgets/movie_browse_item.dart';
+import 'package:movie_app/ui/homescreen/tabs/explore/Cubit/browse_states.dart';
+import 'package:movie_app/utils/app_colors.dart';
 
 import '../../../movie details/movie_details_screen.dart';
 import '../home/Cubit/movie_view_model.dart';

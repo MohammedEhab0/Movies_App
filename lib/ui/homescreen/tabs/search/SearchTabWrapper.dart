@@ -2,11 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:copy_movie/ui/homescreen/tabs/search/search_tab.dart';
-import 'package:copy_movie/ui/homescreen/tabs/search/Cubit/SearchViewModel.dart';
-import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_view_model.dart';
-
+import 'package:movie_app/ui/homescreen/tabs/home/Cubit/movie_view_model.dart';
+import 'package:movie_app/ui/homescreen/tabs/search/Cubit/SearchViewModel.dart';
+import 'package:movie_app/ui/homescreen/tabs/search/search_tab.dart';
 
 import '../../../Di/di.dart';
 

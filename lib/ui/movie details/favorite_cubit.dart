@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:copy_movie/Data/models/AddToFavorite.dart';
-import 'package:copy_movie/Data/models/DeleteMovie.dart';
-import 'package:copy_movie/Data/models/IsFavoriteModel.dart';
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/api/EndPoints.dart';
-import 'package:copy_movie/api/apiConstants.dart';
-import 'package:copy_movie/api/apiManger.dart';
+import 'package:movie_app/Data/models/AddToFavorite.dart';
+import 'package:movie_app/Data/models/DeleteMovie.dart';
+import 'package:movie_app/Data/models/IsFavoriteModel.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/api/EndPoints.dart';
+import 'package:movie_app/api/apiConstants.dart';
+import 'package:movie_app/api/apiManger.dart';
 
 import 'favorite_state.dart';
 

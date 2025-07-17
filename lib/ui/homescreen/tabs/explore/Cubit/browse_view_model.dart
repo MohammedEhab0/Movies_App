@@ -1,7 +1,7 @@
-import 'package:copy_movie/Data/repositories/browse%20tab/browse_tab_repository.dart';
-import 'package:copy_movie/ui/homescreen/tabs/explore/Cubit/browse_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/repositories/browse%20tab/browse_tab_repository.dart';
+import 'package:movie_app/ui/homescreen/tabs/explore/Cubit/browse_states.dart';
 
 @injectable
 class BrowseViewModel extends Cubit<BrowseStates> {

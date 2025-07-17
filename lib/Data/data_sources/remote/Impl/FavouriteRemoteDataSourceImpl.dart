@@ -1,7 +1,7 @@
-import 'package:copy_movie/Data/models/FavouriteModelItem.dart';
-import 'package:copy_movie/errors/Errors.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/models/FavouriteModelItem.dart';
+import 'package:movie_app/errors/Errors.dart';
 
 import '../../../../api/EndPoints.dart';
 import '../../../../api/apiConstants.dart';

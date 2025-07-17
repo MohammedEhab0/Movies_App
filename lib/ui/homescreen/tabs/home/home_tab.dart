@@ -1,14 +1,14 @@
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:copy_movie/ui/Widgets/movie_card.dart';
-import 'package:copy_movie/ui/Widgets/movie_slider.dart';
-import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_states.dart';
-import 'package:copy_movie/ui/homescreen/tabs/home/Cubit/movie_view_model.dart';
-import 'package:copy_movie/ui/movie%20details/movie_details_screen.dart';
-import 'package:copy_movie/utils/app_assets.dart';
-import 'package:copy_movie/utils/app_colors.dart';
-import 'package:copy_movie/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/ui/Widgets/movie_card.dart';
+import 'package:movie_app/ui/Widgets/movie_slider.dart';
+import 'package:movie_app/ui/homescreen/tabs/home/Cubit/movie_states.dart';
+import 'package:movie_app/ui/homescreen/tabs/home/Cubit/movie_view_model.dart';
+import 'package:movie_app/ui/movie%20details/movie_details_screen.dart';
+import 'package:movie_app/utils/app_assets.dart';
+import 'package:movie_app/utils/app_colors.dart';
+import 'package:movie_app/utils/app_styles.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});

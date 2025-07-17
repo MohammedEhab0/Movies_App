@@ -1,5 +1,5 @@
-import 'package:copy_movie/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/app_styles.dart';
 
 class DialogUtils {
   static void showLoading(

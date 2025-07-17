@@ -1,7 +1,7 @@
-import 'package:copy_movie/Data/repositories/getProfile/ProfileRepository.dart';
-import 'package:copy_movie/ui/homescreen/tabs/profile/cubit/profile_and_favourite_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movie_app/Data/repositories/getProfile/ProfileRepository.dart';
+import 'package:movie_app/ui/homescreen/tabs/profile/cubit/profile_and_favourite_states.dart';
 
 // IMPORTANT: Ensure this points to your redefined FavouriteModelItem.dart
 import '../../../../../Data/models/FavouriteModelItem.dart'; // This now defines FavouriteItemModel directly

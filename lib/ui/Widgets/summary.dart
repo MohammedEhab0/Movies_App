@@ -1,7 +1,7 @@
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/utils/app_colors.dart';
-import 'package:copy_movie/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/utils/app_colors.dart';
+import 'package:movie_app/utils/app_styles.dart';
 
 import 'cast_container.dart';
 

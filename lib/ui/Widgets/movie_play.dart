@@ -1,9 +1,9 @@
-import 'package:copy_movie/Data/models/MovieRespone.dart';
-import 'package:copy_movie/ui/movie details/favorite_cubit.dart';
-import 'package:copy_movie/ui/movie%20details/favorite_state.dart';
-import 'package:copy_movie/utils/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/Data/models/MovieRespone.dart';
+import 'package:movie_app/ui/movie details/favorite_cubit.dart';
+import 'package:movie_app/ui/movie%20details/favorite_state.dart';
+import 'package:movie_app/utils/app_assets.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 

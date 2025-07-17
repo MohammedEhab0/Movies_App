@@ -1,4 +1,5 @@
-import 'package:copy_movie/errors/Errors.dart';
+import 'package:movie_app/errors/Errors.dart';
+
 import '../../../../Data/models/LoginResponse.dart';
 
 abstract class LoginStates {}
