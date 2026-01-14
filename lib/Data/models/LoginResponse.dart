@@ -1,96 +1,38 @@
 class LoginResponse {
   LoginResponse({
-    this.type,
-    this.properties,
-    this.statusCode, // Added for error responses
-    this.message,    // Added for error responses
+    this.data,
+    this.message,
+    this.statusCode,
+    this.error,
   });
 
   LoginResponse.fromJson(dynamic json) {
-    type = json['type'];
-    properties = json['properties'] != null ? Properties.fromJson(json['properties']) : null;
-    // Check for error fields
-    statusCode = json['statusCode'];
+    data = json['data'];
     message = json['message'];
+    statusCode = json['statusCode'];
+    error = json['error'];
   }
 
-  String? type;
-  Properties? properties;
-  int? statusCode; // Nullable for successful responses
-  String? message; // Nullable for successful responses
+  String? data;
+  dynamic message; // can be a string or list
+  int? statusCode;
+  String? error;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['type'] = type;
-    if (properties != null) {
-      map['properties'] = properties?.toJson();
-    }
-    // Include error fields if they exist
-    if (statusCode != null) {
-      map['statusCode'] = statusCode;
-    }
-    if (message != null) {
-      map['message'] = message;
-    }
+    map['data'] = data;
+    map['message'] = message;
+    map['statusCode'] = statusCode;
+    map['error'] = error;
     return map;
   }
-}
 
-class Properties {
-  Properties({
-    this.message,
-    this.data,
-  });
-
-  Properties.fromJson(dynamic json) {
-    message = json['message'] != null ? Message.fromJson(json['message']) : null;
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-  }
-  Message? message;
-  Data? data;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (message != null) {
-      map['message'] = message?.toJson();
+  String get displayMessage {
+    if (message is List) {
+      return (message as List).join('\n');
+    } else if (message is String) {
+      return message!;
     }
-    if (data != null) {
-      map['data'] = data?.toJson();
-    }
-    return map;
-  }
-}
-
-class Data {
-  Data({
-    this.type,
-  });
-
-  Data.fromJson(dynamic json) {
-    type = json['type'];
-  }
-  String? type;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['type'] = type;
-    return map;
-  }
-}
-
-class Message {
-  Message({
-    this.type,
-  });
-
-  Message.fromJson(dynamic json) {
-    type = json['type'];
-  }
-  String? type;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['type'] = type;
-    return map;
+    return '';
   }
 }
